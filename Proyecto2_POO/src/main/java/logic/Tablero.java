@@ -49,5 +49,16 @@ public class Tablero {
     public ArrayList<Pieza> getPiezasTomadas(Color color) {
         return new ArrayList();
     }
+
+    public boolean esValida(int posX, int posY) {
+        return posX >= 0 && posX < 8 && posY >= 0 && posY < 8;
+    }
     
+    public boolean estaOcupada(int posX, int posY) {
+        return matriz[posX][posY] != null;
+    }
+
+    public boolean estaOcupadaPorColorContrario(int posX, int posY, Color color) {
+        return matriz[posX][posY] != null && matriz[posX][posY].getColor() != color;
+    }
 }
