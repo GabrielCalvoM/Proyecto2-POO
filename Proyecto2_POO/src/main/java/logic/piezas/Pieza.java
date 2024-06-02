@@ -30,6 +30,10 @@ public abstract class Pieza {
         return Color.WHITE;
     }
     
+    public boolean getMovida() {
+        return false;
+    }
+    
     public boolean getTomada() {
         return false;
     }
