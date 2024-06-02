@@ -1,6 +1,7 @@
 package logic.piezas;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class Rey extends Pieza {
     
@@ -9,7 +10,7 @@ public class Rey extends Pieza {
     }
 
     @Override
-    public void mover(int posX, int posY) {
+    public ArrayList<Integer[]> movimientos() {
         
     }
     

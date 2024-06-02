@@ -22,6 +22,15 @@ public abstract class Pieza {
         this.fueTomada = false;
     }
     
+    public Pieza (Peon peon) {
+        this.color = peon.color;
+        this.fueMovida = peon.fueMovida;
+        this.fueTomada = peon.fueTomada;
+        this.posX = peon.posX;
+        this.posY = peon.posY;
+        this.tablero = peon.tablero;
+    }
+    
     public abstract ArrayList<Integer[]> movimientos();
     
     public void mover(int posX, int posY) {

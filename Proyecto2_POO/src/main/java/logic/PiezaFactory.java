@@ -2,6 +2,7 @@ package logic;
 
 import enums.PiezasEnum;
 import java.awt.Color;
+import logic.piezas.*;
 
 public class PiezaFactory {
     
@@ -12,8 +13,21 @@ public class PiezaFactory {
         this.tablero = tablero;
     }
     
-    /*public Pieza crearPieza(PiezasEnum tipo, int posX, int posY, Color color) {
-        return new Pieza(color);
-    }*/
+    public Pieza crearPieza(PiezasEnum tipo, Color color) {
+        switch (tipo.toString()) {
+            case "peon" -> {
+                return new Peon(color);
+            }
+            case "torre" -> {
+                return new Torre(color);
+            }
+            case "rey" -> {
+                return new Rey(color);
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
     
 }
