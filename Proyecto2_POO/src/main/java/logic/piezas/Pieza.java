@@ -1,7 +1,8 @@
-package logic;
+package logic.piezas;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import logic.Tablero;
 
 public abstract class Pieza {
     

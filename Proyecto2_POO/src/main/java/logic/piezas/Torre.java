@@ -1,10 +1,10 @@
-package logic;
+package logic.piezas;
 
 import java.awt.Color;
 
-public class Peon extends Pieza {
-    
-    public Peon(Color color) {
+public class Torre extends Pieza {
+
+    public Torre(Color color) {
         super(color);
     }
 
