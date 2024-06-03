@@ -13,16 +13,16 @@ public class PiezaFactory {
         this.tablero = tablero;
     }
     
-    public Pieza crearPieza(PiezasEnum tipo, Color color) {
+    public Pieza crearPieza(PiezasEnum tipo, Color color, Tablero tablero, int posX, int posY) {
         switch (tipo.toString()) {
             case "peon" -> {
-                return new Peon(color);
+                return new Peon(color, tablero, posX, posY);
             }
             case "torre" -> {
-                return new Torre(color);
+                return new Torre(color, tablero, posX, posY);
             }
             case "rey" -> {
-                return new Rey(color);
+                return new Rey(color, tablero, posX, posY);
             }
             default -> {
                 return null;

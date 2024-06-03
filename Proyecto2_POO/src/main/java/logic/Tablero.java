@@ -136,7 +136,7 @@ public class Tablero {
         
         // coloca los peones
         for (int i = 0; i < 8; i++) {
-            Pieza pieza = this.factory.crearPieza(PiezasEnum.peon, color);
+            Pieza pieza = this.factory.crearPieza(PiezasEnum.peon, color, this, i, filaPeones);
             piezas.add(pieza);
             matriz[filaPeones][i] = pieza;
         }
@@ -155,17 +155,17 @@ public class Tablero {
             }
             
             if (tipo != null) {
-                Pieza pieza = this.factory.crearPieza(tipo, color);
+                Pieza pieza = this.factory.crearPieza(tipo, color, this, i, filaFrontal);
                 piezas.add(pieza);
                 matriz[filaFrontal][i] = pieza;
             }
         }
         
-        Pieza reina = this.factory.crearPieza(PiezasEnum.reina, color);
+        Pieza reina = this.factory.crearPieza(PiezasEnum.reina, color, this, 3, filaFrontal);
         piezas.add(reina);
         matriz[filaFrontal][3] = reina;
         
-        Pieza rey = this.factory.crearPieza(PiezasEnum.rey, color);
+        Pieza rey = this.factory.crearPieza(PiezasEnum.rey, color, this, 4, filaFrontal);
         piezas.add(rey);
         matriz[filaFrontal][4] = rey;
         
