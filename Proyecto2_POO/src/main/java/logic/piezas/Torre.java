@@ -11,13 +11,32 @@ public class Torre extends Pieza {
     }
 
     @Override
-    public void mover(int posX, int posY) {
-        
-    }
-
-    @Override
     public ArrayList<Integer[]> movimientos() {
-        return null;
+        ArrayList<Integer[]> movimientos = new ArrayList<>();
+
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        for (int i = 0; i < 4; i++) {
+            int newX = posX;
+            int newY = posY;
+
+            while (true) {
+                newX += dx[i];
+                newY += dy[i];
+
+                if (!tablero.esValida(newX, newY) || tablero.estaOcupada(newX, newY)) {
+                    if (tablero.estaOcupadaPorColorContrario(newX, newY, this.color)) {
+                        movimientos.add(new Integer[]{newX, newY});
+                    }
+                    break;
+                }
+
+                movimientos.add(new Integer[]{newX, newY});
+            }
+        }
+
+        return movimientos;
     }
     
 }
