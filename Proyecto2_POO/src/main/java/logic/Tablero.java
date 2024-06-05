@@ -1,11 +1,12 @@
 package logic;
 
-import enums.PiezasEnum;
+import enums.PiezaEnum;
 import logic.piezas.*;
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.*;
 
-public class Tablero {
+public class Tablero implements Serializable {
     
     private String jugador1;
     private String jugador2;
@@ -28,10 +29,6 @@ public class Tablero {
         return matriz[posX][posY];
     }
     
-    public ArrayList<Integer[]> getMovimientosRey() {
-        return new ArrayList();
-    }
-    
     public void enroque(Torre torre, Rey rey) throws Exception {
         Color color = torre.getColor();
         Color rival = this.switchColor(color);
@@ -47,8 +44,14 @@ public class Tablero {
         }
     }
     
-    public void promocion(Peon peon, Pieza nuevaPieza) {
+    public void promocion(Peon peon, PiezaEnum nuevaPieza) throws Exception {
+        Integer[] pos = peon.getPosicion();
+        Pieza pieza = this.factory.promoverPeon(peon, nuevaPieza);
         
+        List<Pieza> lista = this.getListaPiezas(pieza.getColor());
+        lista.add(pieza);
+        lista.remove(peon);
+        this.matriz[pos[0]][pos[1]] = pieza;
     }
     
     public boolean verificarJaque(Color color) throws Exception {
@@ -136,7 +139,7 @@ public class Tablero {
         
         // coloca los peones
         for (int i = 0; i < 8; i++) {
-            Pieza pieza = this.factory.crearPieza(PiezasEnum.peon, color, this, i, filaPeones);
+            Pieza pieza = this.factory.crearPieza(PiezaEnum.peon, color, this, i, filaPeones);
             piezas.add(pieza);
             matriz[filaPeones][i] = pieza;
         }
@@ -144,14 +147,14 @@ public class Tablero {
         // coloca las piezas frontales excepto al rey y la reina
         for (int i = 0; i < 8; i++) {
             float col = (float) Math.abs(3.5 - i);      // determina si la columna es de
-            PiezasEnum tipo = null;                     // torre, caballo o alfil
+            PiezaEnum tipo = null;                     // torre, caballo o alfil
             
             if (col == 3.5) {
-                tipo = PiezasEnum.torre;
+                tipo = PiezaEnum.torre;
             } else if (col == 2.5) {
-                tipo = PiezasEnum.caballo;
+                tipo = PiezaEnum.caballo;
             } else if (col == 1.5) {
-                tipo = PiezasEnum.alfil;
+                tipo = PiezaEnum.alfil;
             }
             
             if (tipo != null) {
@@ -161,11 +164,11 @@ public class Tablero {
             }
         }
         
-        Pieza reina = this.factory.crearPieza(PiezasEnum.reina, color, this, 3, filaFrontal);
+        Pieza reina = this.factory.crearPieza(PiezaEnum.reina, color, this, 3, filaFrontal);
         piezas.add(reina);
         matriz[filaFrontal][3] = reina;
         
-        Pieza rey = this.factory.crearPieza(PiezasEnum.rey, color, this, 4, filaFrontal);
+        Pieza rey = this.factory.crearPieza(PiezaEnum.rey, color, this, 4, filaFrontal);
         piezas.add(rey);
         matriz[filaFrontal][4] = rey;
         

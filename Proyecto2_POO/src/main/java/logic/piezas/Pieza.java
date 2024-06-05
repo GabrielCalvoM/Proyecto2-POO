@@ -1,10 +1,11 @@
 package logic.piezas;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import logic.Tablero;
  
-public abstract class Pieza {
+public abstract class Pieza implements Serializable {
     
     protected boolean fueTomada;
     protected boolean fueMovida;

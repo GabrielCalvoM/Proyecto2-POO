@@ -1,6 +1,7 @@
-package logic;
+package control;
 
 import java.awt.Color;
+import logic.Tablero;
 
 public class Control {
     

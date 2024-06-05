@@ -9,6 +9,10 @@ public class Torre extends Pieza {
     public Torre(Color color, Tablero tablero, int posX, int posY) {
         super(color, tablero, posX, posY);
     }
+    
+    public Torre(Peon peon) {
+        super(peon);
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {

@@ -9,6 +9,10 @@ public class Dama extends Pieza {
     public Dama(Color color, Tablero tablero, int posX, int posY) {
         super(color, tablero, posX, posY);
     }
+    
+    public Dama(Peon peon) {
+        super(peon);
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {

@@ -1,10 +1,10 @@
 package application;
 
-import processing.core.PApplet;
+import UI.MainFrame;
 
 public class Proyecto2_POO {
 
     public static void main(String[] args) {
-        PApplet.main("UI.VentanaPrincipal");
+        MainFrame.main(args);
     }
 }

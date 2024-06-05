@@ -9,6 +9,10 @@ public class Alfil extends Pieza {
     public Alfil(Color color, Tablero tablero, int posX, int posY) {
         super(color, tablero, posX, posY);
     }
+    
+    public Alfil(Peon peon) {
+        super(peon);
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {
