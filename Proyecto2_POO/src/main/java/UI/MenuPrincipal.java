@@ -1,6 +1,7 @@
 package UI;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class MenuPrincipal extends javax.swing.JPanel {
 
@@ -68,7 +69,7 @@ public class MenuPrincipal extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
+                .addGap(103, 103, 103)
                 .addComponent(jLabel1)
                 .addGap(37, 37, 37)
                 .addComponent(nuevaPartidaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -76,7 +77,7 @@ public class MenuPrincipal extends javax.swing.JPanel {
                 .addComponent(cargarPartidaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(salirBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -90,7 +91,9 @@ public class MenuPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_salirBtnActionPerformed
 
     private void nuevaPartidaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaBtnActionPerformed
-        MainFrame.getInstance().showPage("PantallaJuego");
+        MainFrame.getInstance().showPage(MainFrame.PANTALLA_JUEGO);
+        PantallaJuego panel = (PantallaJuego) MainFrame.getInstance().getPage(MainFrame.PANTALLA_JUEGO);
+        panel.setIcon();
     }//GEN-LAST:event_nuevaPartidaBtnActionPerformed
 
 

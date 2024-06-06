@@ -1,9 +1,21 @@
 package UI;
 
+import enums.PiezaEnum;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 public class TablaJugador extends javax.swing.JPanel {
+    
+    private Color color;
+    private int contador;
 
     public TablaJugador() {
         initComponents();
+        this.contador = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -11,38 +23,67 @@ public class TablaJugador extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jColor = new javax.swing.JPanel();
+        piezasTomadas = new javax.swing.JPanel();
+        Pieza1 = new javax.swing.JLabel();
+        Pieza2 = new javax.swing.JLabel();
+        Pieza3 = new javax.swing.JLabel();
+        Pieza4 = new javax.swing.JLabel();
+        Pieza5 = new javax.swing.JLabel();
+        Pieza6 = new javax.swing.JLabel();
+        Pieza7 = new javax.swing.JLabel();
+        Pieza8 = new javax.swing.JLabel();
+        Pieza9 = new javax.swing.JLabel();
+        Pieza10 = new javax.swing.JLabel();
+        Pieza11 = new javax.swing.JLabel();
+        Pieza12 = new javax.swing.JLabel();
+        Pieza13 = new javax.swing.JLabel();
+        Pieza14 = new javax.swing.JLabel();
+        Pieza15 = new javax.swing.JLabel();
+        Pieza16 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(202, 171, 89));
 
-        jLabel1.setFont(new java.awt.Font("Calisto MT", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Calisto MT", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(52, 0, 0));
         jLabel1.setText("Nombre");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jColorLayout = new javax.swing.GroupLayout(jColor);
+        jColor.setLayout(jColorLayout);
+        jColorLayout.setHorizontalGroup(
+            jColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 31, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jColorLayout.setVerticalGroup(
+            jColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 31, Short.MAX_VALUE)
         );
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(220, 220));
+        piezasTomadas.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(99, 99, 99)));
+        piezasTomadas.setOpaque(false);
+        piezasTomadas.setPreferredSize(new java.awt.Dimension(220, 220));
+        piezasTomadas.setLayout(new java.awt.GridLayout(4, 4));
+        piezasTomadas.add(Pieza1);
+        piezasTomadas.add(Pieza2);
+        piezasTomadas.add(Pieza3);
+        piezasTomadas.add(Pieza4);
+        piezasTomadas.add(Pieza5);
+        piezasTomadas.add(Pieza6);
+        piezasTomadas.add(Pieza7);
+        piezasTomadas.add(Pieza8);
+        piezasTomadas.add(Pieza9);
+        piezasTomadas.add(Pieza10);
+        piezasTomadas.add(Pieza11);
+        piezasTomadas.add(Pieza12);
+        piezasTomadas.add(Pieza13);
+        piezasTomadas.add(Pieza14);
+        piezasTomadas.add(Pieza15);
+        piezasTomadas.add(Pieza16);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 220, Short.MAX_VALUE)
-        );
+        jLabel2.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 15, 68));
+        jLabel2.setText("Piezas Tomadas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -51,13 +92,16 @@ public class TablaJugador extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(piezasTomadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 19, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -65,18 +109,63 @@ public class TablaJugador extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(piezasTomadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public void setColor(Color color) {
+        this.color = color;
+        this.jColor.setBackground(color);
+    }
+    
+    public void reset() {
+        this.vaciar();
+        this.contador = 0;
+    }
+    
+    public void setPiezaTomada(PiezaEnum pieza) {
+        ImagenRegistro registro = ImagenRegistro.getInstance();
+        Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color);
+        JLabel label = (JLabel) this.piezasTomadas.getComponent(this.contador);
+        ImageIcon icon = lista.get(pieza);
+        registro.ajustar(label, icon);
+        label.setIcon(icon);
+        this.contador++;
+    }
+    
+    public void vaciar() {
+        for (Component label : this.piezasTomadas.getComponents()) {
+            ((JLabel) label).setIcon(null);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Pieza1;
+    private javax.swing.JLabel Pieza10;
+    private javax.swing.JLabel Pieza11;
+    private javax.swing.JLabel Pieza12;
+    private javax.swing.JLabel Pieza13;
+    private javax.swing.JLabel Pieza14;
+    private javax.swing.JLabel Pieza15;
+    private javax.swing.JLabel Pieza16;
+    private javax.swing.JLabel Pieza2;
+    private javax.swing.JLabel Pieza3;
+    private javax.swing.JLabel Pieza4;
+    private javax.swing.JLabel Pieza5;
+    private javax.swing.JLabel Pieza6;
+    private javax.swing.JLabel Pieza7;
+    private javax.swing.JLabel Pieza8;
+    private javax.swing.JLabel Pieza9;
+    private javax.swing.JPanel jColor;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel piezasTomadas;
     // End of variables declaration//GEN-END:variables
 }

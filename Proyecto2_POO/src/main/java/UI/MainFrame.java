@@ -1,10 +1,14 @@
 package UI;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 
 public class MainFrame extends javax.swing.JFrame {
+    
+    public static final String MENU_PRINCIPAL = "MenuPrincipal";
+    public static final String PANTALLA_JUEGO = "PantallaJuego";
+    public static final String MENU_JUEGO = "MenuJuego";
     
     private static MainFrame instance;
     
@@ -48,24 +52,16 @@ public class MainFrame extends javax.swing.JFrame {
             .addGap(0, 540, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(panel, java.awt.BorderLayout.CENTER);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void initPanel() {
-        this.panel.add(new MenuPrincipal(), "MenuPrincipal");
-        this.panel.add(new PantallaJuego(), "PantallaJuego");
+        this.panel.add(new MenuPrincipal(), MENU_PRINCIPAL);
+        this.panel.add(new PantallaJuego(), PANTALLA_JUEGO);
+        this.panel.add(new MenuJuego(), MENU_JUEGO);
     }
     
     public static void main(String args[]) {
@@ -103,6 +99,15 @@ public class MainFrame extends javax.swing.JFrame {
         cardLayout.show(this.panel, panelName);
         this.panel.revalidate();
         this.panel.repaint();
+    }
+    
+    public JPanel getPage(String panelName) {
+        return (JPanel) (switch (panelName) {
+            case MENU_PRINCIPAL -> this.panel.getComponent(0);
+            case PANTALLA_JUEGO -> this.panel.getComponent(1);
+            case MENU_JUEGO -> this.panel.getComponent(2);
+            default -> null;
+        });
     }
     
     

@@ -14,7 +14,6 @@ public class TableroUI extends javax.swing.JPanel {
     public TableroUI() {
         initComponents();
         initCeldas();
-        initIcons();
     }
     
     private void initCeldas() {
@@ -38,10 +37,6 @@ public class TableroUI extends javax.swing.JPanel {
             }
         }
     }
-    
-    private void initIcons() {
-        Celda.initIcons();
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -64,8 +59,8 @@ public class TableroUI extends javax.swing.JPanel {
     }
     
     public void mostrar(IdentificadorPieza[][] tablero) {
-        for (int i = 0; i < 1; i++) {
-            for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 IdentificadorPieza pieza = tablero[i][j];
                 Celda celda = this.celdas[i][j];
                 

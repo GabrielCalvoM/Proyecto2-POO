@@ -12,8 +12,6 @@ import javax.swing.JButton;
 
 public class Celda extends JButton {
     
-    private static Map<PiezaEnum, ImageIcon> piezasBlancas;     // lista de imagenes
-    private static Map<PiezaEnum, ImageIcon> piezasNegras;      // 
     private boolean marcado;    // posible movimiento de la pieza escogida
     private int fila;
     private int columna;
@@ -58,8 +56,8 @@ public class Celda extends JButton {
         this.tablero = tablero;
     }
     
-    public void marcar() {
-        this.marcado = !this.marcado;
+    public void marcar(boolean marcado) {
+        this.marcado = marcado;
         this.repaint();
     }
     
@@ -67,18 +65,13 @@ public class Celda extends JButton {
     
     
     
-    public void ajustar(ImageIcon icon) {
-        Image imagen = icon.getImage().getScaledInstance(this.getWidth(), this.getHeight(),
-                                                             Image.SCALE_SMOOTH);
-        icon.setImage(imagen);
-    }
-    
     public void paintIcon(Graphics g) {
-        Map<PiezaEnum, ImageIcon> lista = this.getListaIcon(color);
+        ImagenRegistro registro = ImagenRegistro.getInstance();
+        Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color);
         
         if (this.pieza != null) {
             ImageIcon icon = lista.get(this.pieza);
-            this.ajustar(icon);
+            registro.ajustar(this, icon);
             int iconX = (getWidth() - icon.getIconWidth()) / 2;
             int iconY = (getHeight() - icon.getIconHeight()) / 2;
             icon.paintIcon(this, g, iconX, iconY);
@@ -92,50 +85,9 @@ public class Celda extends JButton {
         this.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tablero.seleccionar((Celda) e.getSource());
-                marcar();
+                marcar(!marcado);
             }
         });
-    }
-    
-    public static void initIcons() {
-        initLista(Color.white);
-        initLista(Color.black);
-    }
-    
-    private static void initLista(Color color) {
-        String dir = System.getProperty("user.dir") + "\\imagenes";
-        Map<PiezaEnum, ImageIcon> lista = new HashMap();
-        
-        if (color == Color.white){
-            piezasBlancas = lista;
-            dir += "\\piezasBlancas";
-        }
-        else if (color == Color.black){
-            piezasNegras = lista;
-            dir += "\\piezasNegras";
-        }
-        else {
-            return;
-        }
-        
-        for (PiezaEnum tipo : PiezaEnum.values()) {
-            System.out.println(tipo);
-            String ruta = dir + ("\\" + tipo.toString() + ".png");
-            ImageIcon imagen = new ImageIcon(ruta);
-            lista.put(tipo, imagen);
-        }
-    }
-    
-    private Map<PiezaEnum, ImageIcon> getListaIcon(Color color) {
-        if (color == Color.white){
-            return piezasBlancas;
-        }
-        else if (color == Color.black){
-            return piezasNegras;
-        }
-        else {
-            return null;
-        }
     }
     
     
