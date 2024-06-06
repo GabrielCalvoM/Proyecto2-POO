@@ -67,5 +67,14 @@ public abstract class Pieza implements Serializable {
     public void setX(int posX) {
         this.posX = posX;
     }
+
+    @Override
+    public Pieza clone() {
+        try {
+            return (Pieza) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // No debería suceder
+        }
+    }
     
 }
