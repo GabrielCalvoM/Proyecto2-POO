@@ -24,6 +24,23 @@ public class Tablero implements Serializable {
         
         this.inciarPiezas();
     }
+
+    public Tablero(Tablero otroTablero) {
+        this.jugador1 = otroTablero.jugador1;
+        this.jugador2 = otroTablero.jugador2;
+        this.factory = otroTablero.factory;
+        this.matriz = new Pieza[8][8];
+        
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (otroTablero.matriz[i][j] != null) {
+                    this.matriz[i][j] = otroTablero.matriz[i][j].clone();
+                } else {
+                    this.matriz[i][j] = null;
+                }
+            }
+        }
+    }
     
     public Pieza getPieza(int posX, int posY) {
         return matriz[posX][posY];
@@ -137,7 +154,7 @@ public class Tablero implements Serializable {
         }
     }
     
-    private Rey getRey(Color color) throws Exception {
+    public Rey getRey(Color color) throws Exception {
         List<Pieza> piezas = this.getListaPiezas(color);
         
         for (Pieza pieza : piezas) {
@@ -190,8 +207,16 @@ public class Tablero implements Serializable {
         Pieza rey = this.factory.crearPieza(PiezaEnum.rey, color, this, 4, filaFrontal);
         piezas.add(rey);
         matriz[filaFrontal][4] = rey;
-        
+
         return piezas;
     }
     
+    public void moverPieza(Pieza pieza, int posX, int posY) {
+        matriz[pieza.getPosicion()[0]][pieza.getPosicion()[1]] = null;
+        matriz[posX][posY] = pieza;
+    }
+
+    public void eliminarPieza(Pieza pieza) {
+        matriz[pieza.getPosicion()[0]][pieza.getPosicion()[1]] = null;
+    }
 }
