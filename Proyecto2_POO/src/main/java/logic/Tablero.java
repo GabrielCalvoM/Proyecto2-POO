@@ -28,6 +28,10 @@ public class Tablero implements Serializable {
     public Pieza getPieza(int posX, int posY) {
         return matriz[posX][posY];
     }
+
+    public void setPieza(int posX, int posY, Pieza pieza) {
+        matriz[posX][posY] = pieza;
+    }
     
     public void enroque(Torre torre, Rey rey) throws Exception {
         Color color = torre.getColor();
@@ -129,7 +133,7 @@ public class Tablero implements Serializable {
         throw new Exception("Ocurrió un error inesperado");
     }
     
-    private void inciarPiezas() {
+    public void inciarPiezas() {
         this.piezasBlancas = this.iniciarJugador(0, 1, Color.white);
         this.piezasNegras = this.iniciarJugador(7, 6, Color.black);
     }
