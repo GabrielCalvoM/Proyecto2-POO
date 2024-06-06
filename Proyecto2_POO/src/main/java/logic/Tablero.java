@@ -45,39 +45,54 @@ public class Tablero implements Serializable {
     }
     
     public void promocion(Peon peon, PiezaEnum nuevaPieza) throws Exception {
-        Integer[] pos = peon.getPosicion();
-        Pieza pieza = this.factory.promoverPeon(peon, nuevaPieza);
-        
-        List<Pieza> lista = this.getListaPiezas(pieza.getColor());
-        lista.add(pieza);
-        lista.remove(peon);
-        this.matriz[pos[0]][pos[1]] = pieza;
+        try {
+            Integer[] pos = peon.getPosicion();
+            Pieza pieza = this.factory.promoverPeon(peon, nuevaPieza);
+
+            List<Pieza> lista = this.getListaPiezas(pieza.getColor());
+            lista.add(pieza);
+            lista.remove(peon);
+            this.matriz[pos[0]][pos[1]] = pieza;
+        } catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.promocion(Peon peon, PiezaEnum nuevaPieza)");
+            throw e;
+        }
     }
     
     public boolean verificarJaque(Color color) throws Exception {
-        Set<Integer[]> movimientos = new HashSet();
-        
-        for (Pieza pieza : this.getListaPiezas(color)) {
-            movimientos.addAll(pieza.movimientos());
+        try {
+            Set<Integer[]> movimientos = new HashSet();
+
+            for (Pieza pieza : this.getListaPiezas(color)) {
+                movimientos.addAll(pieza.movimientos());
+            }
+
+            Color rival = this.switchColor(color);
+            Rey reyRival = this.getRey(rival);
+            Integer[] posRey = reyRival.getPosicion();
+
+            return movimientos.contains(posRey);
+        } catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.verificarJaque(Color color)");
+            throw e;
         }
-        
-        Color rival = this.switchColor(color);
-        Rey reyRival = this.getRey(rival);
-        Integer[] posRey = reyRival.getPosicion();
-        
-        return movimientos.contains(posRey);
     }
     
     public ArrayList<Pieza> getPiezasTomadas(Color color) throws Exception {
-        ArrayList<Pieza> piezas = new ArrayList();
-        
-        for (Pieza pieza : this.getListaPiezas(color)) {
-            if (pieza.getTomada()) {
-                piezas.add(pieza);
+        try {
+            ArrayList<Pieza> piezas = new ArrayList();
+
+            for (Pieza pieza : this.getListaPiezas(color)) {
+                if (pieza.getTomada()) {
+                    piezas.add(pieza);
+                }
             }
+
+            return piezas;
+        } catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.getPiezasTomadas(Color color)");
+            throw e;
         }
-        
-        return piezas;
     }
     
     
@@ -89,7 +104,7 @@ public class Tablero implements Serializable {
             case "black" -> {
                 return Color.white;
             }
-            default -> throw new Exception("Ocurrió un error inesperado");
+            default -> throw new Exception("El color no pertenece a ningún jugador");
         }
     }
     
@@ -114,7 +129,7 @@ public class Tablero implements Serializable {
             case "black" -> {
                 return this.piezasNegras;
             }
-            default -> throw new Exception("Ocurrió un error inesperado");
+            default -> throw new Exception("No se logró encontrar lasta perteneciente al jugador");
         }
     }
     
@@ -126,7 +141,7 @@ public class Tablero implements Serializable {
                 return (Rey) pieza;
         }
         
-        throw new Exception("Ocurrió un error inesperado");
+        throw new Exception("No se logró obtener el rey");
     }
     
     private void inciarPiezas() {

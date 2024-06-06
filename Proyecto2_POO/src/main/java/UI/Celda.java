@@ -66,15 +66,6 @@ public class Celda extends JButton {
     
     
     
-    public void setIcon() {
-        Map<PiezaEnum, ImageIcon> lista = this.getListaIcon(color);
-        
-        if (this.pieza != null) {
-            ImageIcon icon = lista.get(this.pieza);
-            this.ajustar(icon);
-            this.setIcon(icon);
-        }
-    }
     
     public void ajustar(ImageIcon icon) {
         Image imagen = icon.getImage().getScaledInstance(this.getWidth(), this.getHeight(),
@@ -147,9 +138,14 @@ public class Celda extends JButton {
         }
     }
     
+    
+    
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setColor(getBackground());
+        g.fillRect(0, 0, getWidth(), getHeight());
         
         if (marcado) {
             Graphics2D g2d = (Graphics2D) g.create();

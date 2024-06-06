@@ -22,8 +22,8 @@ public class Control {
         
     }
     
-    public String[][] mostrarTablero() {
-        return new String[8][8];
+    public IdentificadorPieza[][] mostrarTablero() {
+        return new IdentificadorPieza[8][8];
     }
     
     public void mover(int posX, int posY, int nuevaPosX, int nuevaPosY) {
