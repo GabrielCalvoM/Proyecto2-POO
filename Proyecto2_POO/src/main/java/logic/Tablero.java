@@ -219,4 +219,12 @@ public class Tablero implements Serializable {
     public void eliminarPieza(Pieza pieza) {
         matriz[pieza.getPosicion()[0]][pieza.getPosicion()[1]] = null;
     }
+
+    public String getJugador1() {
+        return jugador1;
+    }
+
+    public String getJugador2() {
+        return jugador2;
+    }
 }

@@ -118,11 +118,15 @@ public class Control {
     }
     
     public void esTablas() {
-        
+        // Termina la partida y declara un empate
+        System.out.println("La partida ha terminado en tablas.");
+        this.tablero = null; // Esto efectivamente termina la partida
     }
     
-    public void abandonar() {
-        
+    public void abandonar(String jugadorAbandona) {
+        String ganador = (jugadorAbandona.equals(this.tablero.getJugador1())) ? this.tablero.getJugador2() : this.tablero.getJugador1();
+        System.out.println(jugadorAbandona + " ha abandonado la partida. El ganador es " + ganador + ".");
+        this.tablero = null; // Esto efectivamente termina la partida
     }
     
     public static void guardarPartida() {
