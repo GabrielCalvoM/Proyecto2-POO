@@ -3,8 +3,6 @@ package UI;
 import control.IdentificadorPieza;
 import enums.PiezaEnum;
 import java.awt.Color;
-import java.awt.Image;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 
@@ -12,8 +10,6 @@ public class TableroUI extends javax.swing.JPanel {
     
     private Celda celdas[][];
     private Celda presionado;
-    private Map<PiezaEnum, ImageIcon> piezasBlancas;
-    private Map<PiezaEnum, ImageIcon> piezasNegras;
 
     public TableroUI() {
         initComponents();
@@ -51,6 +47,7 @@ public class TableroUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 6, true));
         setLayout(new java.awt.GridLayout(8, 8));
     }// </editor-fold>//GEN-END:initComponents
     
@@ -75,10 +72,12 @@ public class TableroUI extends javax.swing.JPanel {
                 if (pieza == null) {
                     celda.setPieza(null);
                     celda.setColor(null);
+                    celda.setEnabled(false);
                 }
                 else {
                     celda.setPieza(pieza.getTipo());
                     celda.setColor(pieza.getColor());
+                    celda.setEnabled(true);
                 }
                 
                 celda.repaint();
