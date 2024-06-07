@@ -180,7 +180,7 @@ public class Tablero implements Serializable {
             matriz[filaPeones][i] = pieza;
         }
         
-        // coloca las piezas frontales excepto al rey y la reina
+        // coloca las piezas frontales excepto al rey y la dama
         for (int i = 0; i < 8; i++) {
             float col = (float) Math.abs(3.5 - i);      // determina si la columna es de
             PiezaEnum tipo = null;                     // torre, caballo o alfil

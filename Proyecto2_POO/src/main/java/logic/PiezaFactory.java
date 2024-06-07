@@ -28,7 +28,7 @@ public class PiezaFactory implements Serializable {
             case "alfil" -> {
                 return new Alfil(color, tablero, posX, posY);
             }
-            case "reina" -> {
+            case "dama" -> {
                 return new Dama(color, tablero, posX, posY);
             }
             case "rey" -> {
@@ -51,7 +51,7 @@ public class PiezaFactory implements Serializable {
             case "alfil" -> {
                 return new Alfil(peon);
             }
-            case "reina" -> {
+            case "dama" -> {
                 return new Dama(peon);
             }
             default -> {
