@@ -58,7 +58,15 @@ public class Celda extends JButton {
     
     public void marcar(boolean marcado) {
         this.marcado = marcado;
+        
+        if (this.pieza == null) {
+            this.setEnabled(marcado);
+        }
+        
         this.repaint();
+    }
+    public boolean isMarcado() {
+        return this.marcado;
     }
     
     

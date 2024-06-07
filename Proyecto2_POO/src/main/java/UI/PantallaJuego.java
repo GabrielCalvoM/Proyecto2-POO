@@ -134,6 +134,7 @@ public class PantallaJuego extends javax.swing.JPanel {
         Control control = Control.getInstance();
         this.jugadorBlanco.setNombre(control.getNombreJugador(Color.white));
         this.jugadorNegro.setNombre(control.getNombreJugador(Color.black));
+        this.tablero.mostrar(tablero);
     }
     
     public void setIcon() {

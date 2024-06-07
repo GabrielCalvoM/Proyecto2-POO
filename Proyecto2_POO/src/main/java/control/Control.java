@@ -1,6 +1,8 @@
 package control;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -12,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import logic.Tablero;
 import logic.piezas.Pieza;
@@ -20,11 +25,14 @@ import logic.piezas.Rey;
 public class Control implements Serializable {
     
     private static Control instance;
+    private static final String dir = "C:/partidasAjedrez";
+    private String partidaActual;
     private boolean juegaBlanco;
     private Tablero tablero;
 
     
     private Control() {
+        this.partidaActual = "";
         this.juegaBlanco = true;
     }
     
@@ -36,12 +44,15 @@ public class Control implements Serializable {
         return Control.instance;
     }
     
-    public void iniciarPartida(String jugador1, String jugador2) {
+    public void iniciarPartida(String partida, String jugador1, String jugador2) {
         this.tablero = new Tablero(jugador1, jugador2); // Inicializa el tablero
         this.tablero.inciarPiezas(); // Inicializa las piezas para cada jugador
     
         // Establece que el jugador 1 (blanco) juega primero
         this.juegaBlanco = true;
+        
+        // Guarda el nombre de la partida
+        this.partidaActual = partida;
     }
     
     public IdentificadorPieza[][] mostrarTablero() {
@@ -174,21 +185,36 @@ public class Control implements Serializable {
         }
     }
     
-    public static void guardarPartida(Control control) throws FileNotFoundException, IOException, ClassNotFoundException {
-        FileOutputStream file = new FileOutputStream("partida.bin");
+    public static void guardarPartida() throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileOutputStream file = new FileOutputStream(dir + instance.partidaActual + ".bin");
         ObjectOutputStream stream = new ObjectOutputStream(file);
-        stream.writeObject(control);
+        stream.writeObject(instance);
         stream.close();
         file.close();
     }
     
-    public static Control cargarPartida() throws FileNotFoundException, IOException, ClassNotFoundException {
-        FileInputStream file = new FileInputStream("partida.bin");
+    public static void cargarPartida(String archivo) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream(dir + archivo + ".bin");
         ObjectInputStream stream = new ObjectInputStream(file);
-        Control control = (Control) stream.readObject();
+        instance = (Control) stream.readObject();
         stream.close();
         file.close();
-        return control;
+    }
+    
+    public static Map<String, String> getPartidas() throws Exception {
+        // Map<nombreArchivo, fecha>
+        File carpeta = new File(dir);
+        carpeta.mkdir();
+        FileFilter filter = file -> file.isFile() && file.getName().endsWith(".bin");
+        Map<String, String> partidas = new HashMap();
+        
+        for (File archivo : carpeta.listFiles(filter)) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha = formatter.format(archivo.lastModified());
+            partidas.put(archivo.getName(), fecha);
+        }
+        
+        return partidas;
     }
     
 }

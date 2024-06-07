@@ -102,11 +102,13 @@ public class MenuPrincipal extends javax.swing.JPanel {
         MainFrame.getInstance().showPage(MainFrame.PANTALLA_JUEGO);
         
         
+        String partida = JOptionPane.showInputDialog(MainFrame.getInstance(),
+                                                      "Indique el nombre con el que se guardará la partida");
         String jugador1 = JOptionPane.showInputDialog(MainFrame.getInstance(),
-                                                      "Escriba el nombre del primer jugador");
+                                                      "Indique el nombre del primer jugador");
         String jugador2 = JOptionPane.showInputDialog(MainFrame.getInstance(),
-                                                      "Escriba el nombre del segundo jugador");
-        Control.getInstance().iniciarPartida(jugador1, jugador2);
+                                                      "Indique el nombre del segundo jugador");
+        Control.getInstance().iniciarPartida(partida, jugador1, jugador2);
         panel.empezarPartida(Control.getInstance().mostrarTablero());
     }//GEN-LAST:event_nuevaPartidaBtnActionPerformed
 

@@ -166,11 +166,11 @@ public class Tablero implements Serializable {
     }
     
     public void inciarPiezas() {
-        this.piezasBlancas = this.iniciarJugador(0, 1, Color.white);
-        this.piezasNegras = this.iniciarJugador(7, 6, Color.black);
+        this.piezasBlancas = this.iniciarJugador(7, 6, Color.white);
+        this.piezasNegras = this.iniciarJugador(0, 1, Color.black);
     }
     
-    private List<Pieza> iniciarJugador(int filaPeones, int filaFrontal, Color color) {
+    private List<Pieza> iniciarJugador(int filaTrasera, int filaPeones, Color color) {
         List<Pieza> piezas = new ArrayList();
         
         // coloca los peones
@@ -194,19 +194,19 @@ public class Tablero implements Serializable {
             }
             
             if (tipo != null) {
-                Pieza pieza = this.factory.crearPieza(tipo, color, this, i, filaFrontal);
+                Pieza pieza = this.factory.crearPieza(tipo, color, this, i, filaTrasera);
                 piezas.add(pieza);
-                matriz[filaFrontal][i] = pieza;
+                matriz[filaTrasera][i] = pieza;
             }
         }
         
-        Pieza reina = this.factory.crearPieza(PiezaEnum.dama, color, this, 3, filaFrontal);
+        Pieza reina = this.factory.crearPieza(PiezaEnum.dama, color, this, 3, filaTrasera);
         piezas.add(reina);
-        matriz[filaFrontal][3] = reina;
+        matriz[filaTrasera][3] = reina;
         
-        Pieza rey = this.factory.crearPieza(PiezaEnum.rey, color, this, 4, filaFrontal);
+        Pieza rey = this.factory.crearPieza(PiezaEnum.rey, color, this, 4, filaTrasera);
         piezas.add(rey);
-        matriz[filaFrontal][4] = rey;
+        matriz[filaTrasera][4] = rey;
 
         return piezas;
     }
