@@ -13,7 +13,6 @@ public class ImagenRegistro {
     private static ImagenRegistro instancia;
     private Map<PiezaEnum, ImageIcon> piezasBlancas;     // lista de imagenes
     private Map<PiezaEnum, ImageIcon> piezasNegras;      // 
-    private ImageIcon opcionesIcon;
     private final String directorio = System.getProperty("user.dir") + "\\imagenes";
     
     
@@ -41,23 +40,28 @@ public class ImagenRegistro {
         }
     }
     
-    public ImageIcon getOpcionesIcon() {
-        return this.opcionesIcon;
-    }
-    
     public void ajustar(JComponent component, ImageIcon icon) {
         Image imagen = icon.getImage().getScaledInstance(component.getWidth(), component.getHeight(),
                                                          Image.SCALE_SMOOTH);
         icon.setImage(imagen);
     }
     
+    public String getDir() {
+        return this.directorio;
+    }
+    
+    public ImageIcon getIcon(JComponent component, String ruta) {
+        ImageIcon icon = new ImageIcon(this.directorio + ruta);
+        this.ajustar(component, icon);
+        return icon;
+    }
+    
+    
     
     
     private void initIcons() {
         initLista(Color.white);
         initLista(Color.black);
-        String ruta = directorio + "\\botones\\opciones.png";
-        this.opcionesIcon = new ImageIcon(ruta);
     }
     
     private void initLista(Color color) {

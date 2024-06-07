@@ -24,6 +24,10 @@ public class Control {
     }
     
     public static Control getInstance() {
+        if (instance == null) {
+            instance = new Control();
+        }
+        
         return Control.instance;
     }
     
@@ -127,6 +131,27 @@ public class Control {
         String ganador = (jugadorAbandona.equals(this.tablero.getJugador1())) ? this.tablero.getJugador2() : this.tablero.getJugador1();
         System.out.println(jugadorAbandona + " ha abandonado la partida. El ganador es " + ganador + ".");
         this.tablero = null; // Esto efectivamente termina la partida
+    }
+    
+    public Color jugadorActual() {
+        if (this.juegaBlanco) {
+            return Color.white;
+        }
+        else {
+            return Color.black;
+        }
+    }
+    
+    public String getNombreJugador(Color color) {
+        if (color == Color.white) {
+            return this.tablero.getJugador1();
+        }
+        else if (color == Color.black) {
+            return this.tablero.getJugador2();
+        }
+        else {
+            return "";
+        }
     }
     
     public static void guardarPartida() {

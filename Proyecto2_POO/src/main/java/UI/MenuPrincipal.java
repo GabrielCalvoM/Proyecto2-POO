@@ -1,7 +1,7 @@
 package UI;
 
+import control.Control;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class MenuPrincipal extends javax.swing.JPanel {
 
@@ -41,6 +41,11 @@ public class MenuPrincipal extends javax.swing.JPanel {
         cargarPartidaBtn.setFont(new java.awt.Font("Century", 0, 24)); // NOI18N
         cargarPartidaBtn.setText("Cargar Pratida");
         cargarPartidaBtn.setToolTipText("");
+        cargarPartidaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarPartidaBtnActionPerformed(evt);
+            }
+        });
 
         salirBtn.setBackground(new java.awt.Color(166, 105, 40));
         salirBtn.setFont(new java.awt.Font("Century", 0, 24)); // NOI18N
@@ -77,7 +82,7 @@ public class MenuPrincipal extends javax.swing.JPanel {
                 .addComponent(cargarPartidaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(salirBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -91,10 +96,23 @@ public class MenuPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_salirBtnActionPerformed
 
     private void nuevaPartidaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaPartidaBtnActionPerformed
-        MainFrame.getInstance().showPage(MainFrame.PANTALLA_JUEGO);
         PantallaJuego panel = (PantallaJuego) MainFrame.getInstance().getPage(MainFrame.PANTALLA_JUEGO);
         panel.setIcon();
+        panel.reset();
+        MainFrame.getInstance().showPage(MainFrame.PANTALLA_JUEGO);
+        
+        
+        String jugador1 = JOptionPane.showInputDialog(MainFrame.getInstance(),
+                                                      "Escriba el nombre del primer jugador");
+        String jugador2 = JOptionPane.showInputDialog(MainFrame.getInstance(),
+                                                      "Escriba el nombre del segundo jugador");
+        Control.getInstance().iniciarPartida(jugador1, jugador2);
+        panel.empezarPartida(Control.getInstance().mostrarTablero());
     }//GEN-LAST:event_nuevaPartidaBtnActionPerformed
+
+    private void cargarPartidaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaBtnActionPerformed
+        
+    }//GEN-LAST:event_cargarPartidaBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -22,7 +22,7 @@ public class TablaJugador extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        nombreLabel = new javax.swing.JLabel();
         jColor = new javax.swing.JPanel();
         piezasTomadas = new javax.swing.JPanel();
         Pieza1 = new javax.swing.JLabel();
@@ -45,9 +45,8 @@ public class TablaJugador extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(202, 171, 89));
 
-        jLabel1.setFont(new java.awt.Font("Calisto MT", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(52, 0, 0));
-        jLabel1.setText("Nombre");
+        nombreLabel.setFont(new java.awt.Font("Calisto MT", 0, 18)); // NOI18N
+        nombreLabel.setForeground(new java.awt.Color(52, 0, 0));
 
         javax.swing.GroupLayout jColorLayout = new javax.swing.GroupLayout(jColor);
         jColor.setLayout(jColorLayout);
@@ -100,7 +99,7 @@ public class TablaJugador extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -110,7 +109,7 @@ public class TablaJugador extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -128,6 +127,7 @@ public class TablaJugador extends javax.swing.JPanel {
     public void reset() {
         this.vaciar();
         this.contador = 0;
+        this.nombreLabel.setText("");
     }
     
     public void setPiezaTomada(PiezaEnum pieza) {
@@ -144,6 +144,10 @@ public class TablaJugador extends javax.swing.JPanel {
         for (Component label : this.piezasTomadas.getComponents()) {
             ((JLabel) label).setIcon(null);
         }
+    }
+    
+    public void setNombre(String nombre) {
+        this.nombreLabel.setText(nombre);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -164,8 +168,8 @@ public class TablaJugador extends javax.swing.JPanel {
     private javax.swing.JLabel Pieza8;
     private javax.swing.JLabel Pieza9;
     private javax.swing.JPanel jColor;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel nombreLabel;
     private javax.swing.JPanel piezasTomadas;
     // End of variables declaration//GEN-END:variables
 }

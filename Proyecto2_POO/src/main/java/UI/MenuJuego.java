@@ -2,6 +2,7 @@ package UI;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 public class MenuJuego extends javax.swing.JPanel {
@@ -25,6 +26,7 @@ public class MenuJuego extends javax.swing.JPanel {
         setOpaque(false);
 
         jPanel1.setBackground(new java.awt.Color(216, 163, 107));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 10, true));
 
         jLabel1.setFont(new java.awt.Font("Bookman Old Style", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 29, 128));
@@ -35,16 +37,31 @@ public class MenuJuego extends javax.swing.JPanel {
         guardarSalirBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         guardarSalirBtn.setForeground(new java.awt.Color(255, 224, 113));
         guardarSalirBtn.setText("Guardar y Saliir");
+        guardarSalirBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarSalirBtnActionPerformed(evt);
+            }
+        });
 
         salirBtn.setBackground(new java.awt.Color(104, 56, 9));
         salirBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         salirBtn.setForeground(new java.awt.Color(255, 224, 113));
         salirBtn.setText("Salir");
+        salirBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirBtnActionPerformed(evt);
+            }
+        });
 
         guardarBtn.setBackground(new java.awt.Color(104, 56, 9));
         guardarBtn.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         guardarBtn.setForeground(new java.awt.Color(255, 224, 113));
         guardarBtn.setText("Guardar");
+        guardarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,7 +104,7 @@ public class MenuJuego extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(355, Short.MAX_VALUE)
+                .addContainerGap(335, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -103,19 +120,47 @@ public class MenuJuego extends javax.swing.JPanel {
                 .addComponent(volverBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void volverBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverBtnActionPerformed
-        MainFrame.getInstance().showPage(MainFrame.MENU_JUEGO);
+        MainFrame.getInstance().showPage(MainFrame.PANTALLA_JUEGO);
     }//GEN-LAST:event_volverBtnActionPerformed
 
+    private void salirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirBtnActionPerformed
+        String string = "<html>¿Desea salir de la partida?"
+                        + "<br>(Se perderá el progreso no guardado)";
+        this.salir(string);
+    }//GEN-LAST:event_salirBtnActionPerformed
+
+    private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
+        this.guardar();
+    }//GEN-LAST:event_guardarBtnActionPerformed
+
+    private void guardarSalirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarSalirBtnActionPerformed
+        String string = "¿Desea salir de la partida?";
+        this.guardar();
+        this.salir(string);
+    }//GEN-LAST:event_guardarSalirBtnActionPerformed
+
     public void setIcon() {
-        Icon icon = UIManager.getIcon("InternalFrame.closeIcon");
+        ImageIcon icon = ImagenRegistro.getInstance().getIcon(this.volverBtn, "\\botones\\salir.png");
         this.volverBtn.setIcon(icon);
     }
-
+    
+    private void guardar() {
+        
+    }
+    
+    private void salir(String string) {
+        int salir = JOptionPane.showConfirmDialog(MainFrame.getInstance(), string,
+                                                  "Salir", JOptionPane.YES_NO_OPTION);
+        if (salir == JOptionPane.YES_OPTION) {
+            MainFrame.getInstance().showPage(MainFrame.MENU_PRINCIPAL);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guardarBtn;
     private javax.swing.JButton guardarSalirBtn;

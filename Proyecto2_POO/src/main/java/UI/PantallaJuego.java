@@ -1,9 +1,9 @@
 package UI;
 
+import control.Control;
 import control.IdentificadorPieza;
-import enums.PiezaEnum;
 import java.awt.Color;
-import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class PantallaJuego extends javax.swing.JPanel {
 
@@ -18,33 +18,31 @@ public class PantallaJuego extends javax.swing.JPanel {
     private void initComponents() {
 
         tablero = new UI.TableroUI();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jugadorBlanco = new UI.TablaJugador();
         jugadorNegro = new UI.TablaJugador();
-        opciones = new javax.swing.JButton();
+        opcionesBtn = new javax.swing.JButton();
+        abandonarBtn = new javax.swing.JButton();
+        tablasBtn = new javax.swing.JButton();
 
         setOpaque(false);
 
         tablero.setPreferredSize(new java.awt.Dimension(440, 440));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        opcionesBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                opcionesBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        abandonarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                abandonarBtnActionPerformed(evt);
             }
         });
 
-        opciones.addActionListener(new java.awt.event.ActionListener() {
+        tablasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opcionesActionPerformed(evt);
+                tablasBtnActionPerformed(evt);
             }
         });
 
@@ -57,21 +55,19 @@ public class PantallaJuego extends javax.swing.JPanel {
                 .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jugadorNegro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(11, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tablasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(abandonarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(opcionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(237, 237, 237)
-                .addComponent(jButton1)
-                .addGap(313, 313, 313))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,55 +77,80 @@ public class PantallaJuego extends javax.swing.JPanel {
                         .addGap(50, 50, 50)
                         .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jugadorNegro, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
-                .addContainerGap(14, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(opcionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tablasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(abandonarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(36, 36, 36)
+                                .addComponent(jugadorNegro, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.tablero.mostrar(new IdentificadorPieza[][]{{new IdentificadorPieza(Color.white, PiezaEnum.reina), null}});
-        this.jugadorNegro.setPiezaTomada(PiezaEnum.reina);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.tablero.mostrar(new IdentificadorPieza[][]{{null, new IdentificadorPieza(Color.black, PiezaEnum.alfil)}});
-        this.jugadorBlanco.setPiezaTomada(PiezaEnum.reina);
-        this.jugadorNegro.reset();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void opcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionesActionPerformed
+    private void opcionesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionesBtnActionPerformed
         MainFrame.getInstance().showPage(MainFrame.MENU_JUEGO);
         ((MenuJuego) MainFrame.getInstance().getPage(MainFrame.MENU_JUEGO)).setIcon();
-    }//GEN-LAST:event_opcionesActionPerformed
+    }//GEN-LAST:event_opcionesBtnActionPerformed
+
+    private void abandonarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abandonarBtnActionPerformed
+        int abandonar = JOptionPane.showConfirmDialog(MainFrame.getInstance(),
+                                                      "¿Seguro que quiere abandonar la partida?",
+                                                      "Abandonar", JOptionPane.YES_NO_OPTION);
+        if (abandonar == JOptionPane.YES_OPTION) {
+            Control control = Control.getInstance();
+            String nombre = control.getNombreJugador(control.jugadorActual());
+            control.abandonar(nombre);
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), nombre + " ha abandonado la partida",
+                                          "Abandonar", JOptionPane.INFORMATION_MESSAGE);
+            MainFrame.getInstance().showPage(MainFrame.MENU_PRINCIPAL);
+        }
+    }//GEN-LAST:event_abandonarBtnActionPerformed
+
+    private void tablasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tablasBtnActionPerformed
+        boolean tablas = TablasDialog.verificarTablas(MainFrame.getInstance(), true);
+        
+        if (tablas) {
+            Control control = Control.getInstance();
+            control.esTablas();
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), "Se ha declarado tablas por ambos jugadores",
+                                          "Declarar Tablas", JOptionPane.INFORMATION_MESSAGE);
+            MainFrame.getInstance().showPage(MainFrame.MENU_PRINCIPAL);
+        }
+    }//GEN-LAST:event_tablasBtnActionPerformed
     
-    public void empezarPartida(IdentificadorPieza[][] tablero) {
-        this.tablero.mostrar(tablero);
+    public void reset() {
         this.jugadorBlanco.reset();
         this.jugadorNegro.reset();
     }
     
+    public void empezarPartida(IdentificadorPieza[][] tablero) {
+        //this.tablero.mostrar(tablero);
+        Control control = Control.getInstance();
+        this.jugadorBlanco.setNombre(control.getNombreJugador(Color.white));
+        this.jugadorNegro.setNombre(control.getNombreJugador(Color.black));
+    }
+    
     public void setIcon() {
-        ImageIcon icon = ImagenRegistro.getInstance().getOpcionesIcon();
-        ImagenRegistro.getInstance().ajustar(this.opciones, icon);
-        this.opciones.setIcon(icon);
+        this.opcionesBtn.setIcon(ImagenRegistro.getInstance().getIcon(this.opcionesBtn,
+                                                                      "\\botones\\opciones.png"));
+        this.abandonarBtn.setIcon(ImagenRegistro.getInstance().getIcon(this.opcionesBtn,
+                                                                       "\\botones\\abandonar.png"));
+        this.tablasBtn.setIcon(ImagenRegistro.getInstance().getIcon(this.opcionesBtn,
+                                                                    "\\botones\\tablas.png"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton abandonarBtn;
     private UI.TablaJugador jugadorBlanco;
     private UI.TablaJugador jugadorNegro;
-    private javax.swing.JButton opciones;
+    private javax.swing.JButton opcionesBtn;
+    private javax.swing.JButton tablasBtn;
     private UI.TableroUI tablero;
     // End of variables declaration//GEN-END:variables
 }
