@@ -1,7 +1,14 @@
 package control;
 
 import java.awt.Color;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 
 import logic.Tablero;
 import logic.piezas.Alfil;
@@ -12,7 +19,7 @@ import logic.piezas.Rey;
 import logic.piezas.Torre;
 import logic.piezas.Dama;
 
-public class Control {
+public class Control implements Serializable {
     
     private static Control instance;
     private boolean juegaBlanco;
@@ -154,12 +161,21 @@ public class Control {
         }
     }
     
-    public static void guardarPartida() {
-        
+    public static void guardarPartida(Control control) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileOutputStream file = new FileOutputStream("partida.bin");
+        ObjectOutputStream stream = new ObjectOutputStream(file);
+        stream.writeObject(control);
+        stream.close();
+        file.close();
     }
     
-    public static void cargarPartida() {
-        
+    public static Control cargarPartida() throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream("partida.bin");
+        ObjectInputStream stream = new ObjectInputStream(file);
+        Control control = (Control) stream.readObject();
+        stream.close();
+        file.close();
+        return control;
     }
     
 }
