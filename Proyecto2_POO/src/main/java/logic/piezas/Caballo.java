@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import logic.Tablero;
 
+import enums.PiezaEnum;
+
 public class Caballo extends Pieza {
 
     public Caballo(Color color, Tablero tablero, int posX, int posY) {
-        super(color, tablero, posX, posY);
+        super(color, tablero, posX, posY, PiezaEnum.caballo);
     }
     
     public Caballo(Peon peon) {

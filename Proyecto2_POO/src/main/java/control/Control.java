@@ -3,6 +3,9 @@ package control;
 import java.awt.Color;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+
+import enums.PiezaEnum;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileNotFoundException;
@@ -11,13 +14,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import logic.Tablero;
-import logic.piezas.Alfil;
-import logic.piezas.Caballo;
-import logic.piezas.Peon;
 import logic.piezas.Pieza;
 import logic.piezas.Rey;
-import logic.piezas.Torre;
-import logic.piezas.Dama;
 
 public class Control implements Serializable {
     
@@ -47,7 +45,22 @@ public class Control implements Serializable {
     }
     
     public IdentificadorPieza[][] mostrarTablero() {
-        return new IdentificadorPieza[8][8];
+        IdentificadorPieza[][] estadoTablero = new IdentificadorPieza[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Pieza pieza = this.tablero.getPieza(i, j);
+                if (pieza != null) {
+                    // Asumiendo que Pieza tiene métodos getColor() y getTipo() que retornan Color y PiezaEnum respectivamente
+                    Color colorPieza = pieza.getColor();
+                    PiezaEnum tipoPieza = pieza.getTipo();
+                    estadoTablero[i][j] = new IdentificadorPieza(colorPieza, tipoPieza);
+                } else {
+                    // Si no hay pieza en la posición, se deja como null o se asigna un valor que represente una celda vacía
+                    estadoTablero[i][j] = null;
+                }
+            }
+        }
+        return estadoTablero;
     }
     
     public void mover(int posX, int posY, int nuevaPosX, int nuevaPosY) {

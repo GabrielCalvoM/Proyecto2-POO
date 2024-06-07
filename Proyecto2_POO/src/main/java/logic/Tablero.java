@@ -200,7 +200,7 @@ public class Tablero implements Serializable {
             }
         }
         
-        Pieza reina = this.factory.crearPieza(PiezaEnum.reina, color, this, 3, filaFrontal);
+        Pieza reina = this.factory.crearPieza(PiezaEnum.dama, color, this, 3, filaFrontal);
         piezas.add(reina);
         matriz[filaFrontal][3] = reina;
         

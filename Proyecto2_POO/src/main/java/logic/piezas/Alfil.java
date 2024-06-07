@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import logic.Tablero;
 
+import enums.PiezaEnum;
+
 public class Alfil extends Pieza {
 
     public Alfil(Color color, Tablero tablero, int posX, int posY) {
-        super(color, tablero, posX, posY);
+        super(color, tablero, posX, posY, PiezaEnum.alfil);
     }
     
     public Alfil(Peon peon) {
