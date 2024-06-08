@@ -119,6 +119,17 @@ public class Control implements Serializable {
         this.juegaBlanco = !this.juegaBlanco;
     }
     
+    public List<PiezaEnum> getPiezasTomadas(Color color) throws Exception {
+        List<Pieza> piezas = this.tablero.getPiezasTomadas(color);
+        List<PiezaEnum> lista = new ArrayList();
+        
+        for (Pieza pieza : piezas) {
+            lista.add(pieza.getTipo());
+        }
+        
+        return lista;
+    }
+    
     public Color verificarJaqueMate() {
         Color[] colores = {Color.WHITE, Color.BLACK};
     

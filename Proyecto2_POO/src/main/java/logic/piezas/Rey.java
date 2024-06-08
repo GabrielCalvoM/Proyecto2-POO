@@ -8,8 +8,8 @@ import enums.PiezaEnum;
 
 public class Rey extends Pieza {
     
-    public Rey(Color color, Tablero tablero, int posX, int posY) {
-        super(color, tablero, posX, posY, PiezaEnum.rey);
+    public Rey(Color color, Tablero tablero, int fila, int columna) {
+        super(color, tablero, fila, columna, PiezaEnum.rey);
     }
 
     @Override
@@ -20,8 +20,8 @@ public class Rey extends Pieza {
         int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
     
         for (int i = 0; i < 8; i++) {
-            int newX = posX + dx[i];
-            int newY = posY + dy[i];
+            int newX = fila + dx[i];
+            int newY = columna + dy[i];
     
             if (tablero.esValida(newX, newY) && (!tablero.estaOcupada(newX, newY) || tablero.estaOcupadaPorColorContrario(newX, newY, this.color))) {
                 movimientos.add(new Integer[]{newX, newY});

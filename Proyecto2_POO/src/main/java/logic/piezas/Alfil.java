@@ -8,8 +8,8 @@ import enums.PiezaEnum;
 
 public class Alfil extends Pieza {
 
-    public Alfil(Color color, Tablero tablero, int posX, int posY) {
-        super(color, tablero, posX, posY, PiezaEnum.alfil);
+    public Alfil(Color color, Tablero tablero, int fila, int columna) {
+        super(color, tablero, fila, columna, PiezaEnum.alfil);
     }
     
     public Alfil(Peon peon) {
@@ -24,8 +24,8 @@ public class Alfil extends Pieza {
         int[] dy = {-1, 1, -1, 1};
 
         for (int i = 0; i < 4; i++) {
-            int newX = posX;
-            int newY = posY;
+            int newX = fila;
+            int newY = columna;
 
             while (true) {
                 newX += dx[i];

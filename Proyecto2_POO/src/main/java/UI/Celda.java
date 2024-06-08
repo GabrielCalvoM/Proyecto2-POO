@@ -4,9 +4,7 @@ import control.Control;
 import enums.PiezaEnum;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Ellipse2D;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -68,6 +66,10 @@ public class Celda extends JButton {
     public void marcar(boolean marcado) {
         this.marcado = marcado;
         
+        if (this.pieza == null || !Control.getInstance().estaJugando(this.color)) {
+            this.setEnabled(marcado);
+        }
+        
         this.setIcon();
     }
     public boolean isMarcado() {
@@ -114,11 +116,7 @@ public class Celda extends JButton {
         this.marcado = false;
         
         this.addActionListener((ActionEvent e) -> {
-            if (this.pieza != null || marcado) {
-                if (this.tablero.getSeleccionado() != null || Control.getInstance().estaJugando(color)) {
-                    tablero.seleccionar(this);
-                }
-            }
+            tablero.seleccionar(this);
         });
     }
     
@@ -127,7 +125,6 @@ public class Celda extends JButton {
     
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
         

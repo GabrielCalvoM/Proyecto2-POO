@@ -8,8 +8,8 @@ import enums.PiezaEnum;
 
 public class Dama extends Pieza {
 
-    public Dama(Color color, Tablero tablero, int posX, int posY) {
-        super(color, tablero, posX, posY, PiezaEnum.dama);
+    public Dama(Color color, Tablero tablero, int fila, int columna) {
+        super(color, tablero, fila, columna, PiezaEnum.dama);
     }
     
     public Dama(Peon peon) {
@@ -24,8 +24,8 @@ public class Dama extends Pieza {
         int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         for (int i = 0; i < 8; i++) {
-            int newX = posX;
-            int newY = posY;
+            int newX = fila;
+            int newY = columna;
 
             while (true) {
                 newX += dx[i];

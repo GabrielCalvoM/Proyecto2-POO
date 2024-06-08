@@ -1,12 +1,14 @@
 package UI;
 
+import control.Control;
 import enums.PiezaEnum;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
+import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class TablaJugador extends javax.swing.JPanel {
     
@@ -126,7 +128,6 @@ public class TablaJugador extends javax.swing.JPanel {
     
     public void reset() {
         this.vaciar();
-        this.contador = 0;
         this.nombreLabel.setText("");
     }
     
@@ -144,10 +145,29 @@ public class TablaJugador extends javax.swing.JPanel {
         for (Component label : this.piezasTomadas.getComponents()) {
             ((JLabel) label).setIcon(null);
         }
+        this.contador = 0;
     }
     
     public void setNombre(String nombre) {
         this.nombreLabel.setText(nombre);
+    }
+    
+    public void llenar() {
+        try {
+            this.vaciar();
+            
+            List<PiezaEnum> piezas = Control.getInstance().getPiezasTomadas(this.color);
+            
+            for (PiezaEnum pieza : piezas) {
+                this.setPiezaTomada(pieza);
+            }
+        }
+        catch (Exception ex) {
+            String msj = ("Ha ocurrido un error al recuperar las "
+                          + "piezas tomadas de " + this.nombreLabel.getText());
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), msj, "Error",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

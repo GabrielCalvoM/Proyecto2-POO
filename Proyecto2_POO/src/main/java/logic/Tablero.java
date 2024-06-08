@@ -54,8 +54,8 @@ public class Tablero implements Serializable {
         return matriz[fila][columna];
     }
 
-    public void setPieza(int posX, int posY, Pieza pieza) {
-        matriz[posX][posY] = pieza;
+    public void setPieza(int fila, int columna, Pieza pieza) {
+        matriz[fila][columna] = pieza;
     }
     
     public void enroque(Torre torre, Rey rey) throws Exception {
@@ -126,39 +126,39 @@ public class Tablero implements Serializable {
     
     
     public Color switchColor(Color color) throws Exception {
-        switch (color.toString()) {
-            case "white" -> {
-                return Color.black;
-            }
-            case "black" -> {
-                return Color.white;
-            }
-            default -> throw new Exception("El color no pertenece a ningún jugador");
+        if (color == Color.white) {
+            return Color.black;
+        }
+        else if (color == Color.black) {
+            return Color.white;
+        }
+        else {
+            throw new Exception("El color no pertenece a ningún jugador");
         }
     }
     
-    public boolean esValida(int posX, int posY) {
-        return posX >= 0 && posX < 8 && posY >= 0 && posY < 8;
+    public boolean esValida(int fila, int columna) {
+        return fila >= 0 && fila < 8 && columna >= 0 && columna < 8;
     }
     
-    public boolean estaOcupada(int posX, int posY) {
-        return matriz[posX][posY] != null;
+    public boolean estaOcupada(int fila, int columna) {
+        return matriz[fila][columna] != null;
     }
 
-    public boolean estaOcupadaPorColorContrario(int posX, int posY, Color color) {
-        return matriz[posX][posY] != null && matriz[posX][posY].getColor() != color;
+    public boolean estaOcupadaPorColorContrario(int fila, int columna, Color color) {
+        return matriz[fila][columna] != null && matriz[fila][columna].getColor() != color;
     }
     
     
     private List<Pieza> getListaPiezas(Color color) throws Exception {
-        switch (color.toString()) {
-            case "white" -> {
-                return this.piezasBlancas;
-            }
-            case "black" -> {
-                return this.piezasNegras;
-            }
-            default -> throw new Exception("No se logró encontrar lasta perteneciente al jugador");
+        if (color == Color.white) {
+            return this.piezasBlancas;
+        }
+        else if (color == Color.black) {
+            return this.piezasNegras;
+        }
+        else {
+            throw new Exception("No se logró encontrar lasta perteneciente al jugador");
         }
     }
     
@@ -183,7 +183,7 @@ public class Tablero implements Serializable {
         
         // coloca los peones
         for (int i = 0; i < 8; i++) {
-            Pieza pieza = this.factory.crearPieza(PiezaEnum.peon, color, this, i, filaPeones);
+            Pieza pieza = this.factory.crearPieza(PiezaEnum.peon, color, this, filaPeones, i);
             piezas.add(pieza);
             matriz[filaPeones][i] = pieza;
         }
@@ -202,26 +202,27 @@ public class Tablero implements Serializable {
             }
             
             if (tipo != null) {
-                Pieza pieza = this.factory.crearPieza(tipo, color, this, i, filaFrontal);
+                Pieza pieza = this.factory.crearPieza(tipo, color, this, filaFrontal, i);
                 piezas.add(pieza);
                 matriz[filaFrontal][i] = pieza;
             }
         }
         
-        Pieza dama = this.factory.crearPieza(PiezaEnum.dama, color, this, 3, filaFrontal);
+        Pieza dama = this.factory.crearPieza(PiezaEnum.dama, color, this, filaFrontal, 3);
         piezas.add(dama);
         matriz[filaFrontal][3] = dama;
         
-        Pieza rey = this.factory.crearPieza(PiezaEnum.rey, color, this, 4, filaFrontal);
+        Pieza rey = this.factory.crearPieza(PiezaEnum.rey, color, this, filaFrontal, 4);
         piezas.add(rey);
         matriz[filaFrontal][4] = rey;
 
         return piezas;
     }
     
-    public void moverPieza(Pieza pieza, int posX, int posY) {
+    public void moverPieza(Pieza pieza, int fila, int columna) {
         matriz[pieza.getPosicion()[0]][pieza.getPosicion()[1]] = null;
-        matriz[posX][posY] = pieza;
+        matriz[fila][columna] = pieza;
+        
     }
 
     public void eliminarPieza(Pieza pieza) {

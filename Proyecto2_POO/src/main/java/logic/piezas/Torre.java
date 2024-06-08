@@ -8,8 +8,8 @@ import enums.PiezaEnum;
 
 public class Torre extends Pieza {
 
-    public Torre(Color color, Tablero tablero, int posX, int posY) {
-        super(color, tablero, posX, posY, PiezaEnum.torre);
+    public Torre(Color color, Tablero tablero, int fila, int columna) {
+        super(color, tablero, fila, columna, PiezaEnum.torre);
     }
     
     public Torre(Peon peon) {
@@ -24,8 +24,8 @@ public class Torre extends Pieza {
         int[] dy = {0, 1, 0, -1};
 
         for (int i = 0; i < 4; i++) {
-            int newX = posX;
-            int newY = posY;
+            int newX = fila;
+            int newY = columna;
 
             while (true) {
                 newX += dx[i];

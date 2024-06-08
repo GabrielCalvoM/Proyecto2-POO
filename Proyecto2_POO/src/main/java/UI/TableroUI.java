@@ -4,6 +4,7 @@ import control.Control;
 import control.IdentificadorPieza;
 import enums.PiezaEnum;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class TableroUI extends javax.swing.JPanel {
     public void seleccionar(Celda celda) {
         if (this.presionado == celda) {
             this.presionado = null;
+            this.marcar(-1, -1);
         }
         else {
             if (celda.isMarcado()) {
@@ -73,7 +75,11 @@ public class TableroUI extends javax.swing.JPanel {
     }
     
     public void marcar(int fila, int columna) {
-        List<Integer[]> movimientos = Control.getInstance().getMovimientos(fila, columna);
+        List<Integer[]> movimientos = new ArrayList();
+        
+        if (0 <= fila && fila < 8 && 0 <= columna && columna < 8) {
+            movimientos = Control.getInstance().getMovimientos(fila, columna);
+        }
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -99,18 +105,23 @@ public class TableroUI extends javax.swing.JPanel {
                 else {
                     celda.setPieza(pieza.getTipo());
                     celda.setColor(pieza.getColor());
+                    celda.setEnabled(Control.getInstance().estaJugando(celda.getColor()));
                 }
                 
                 celda.setIcon();
             }
         }
+        
+        ((PantallaJuego) MainFrame.getInstance().getPage(MainFrame.PANTALLA_JUEGO)).mostrarPiezasTomadas();
     }
     
     private void terminarTurno() {
-        this.mostrar(Control.getInstance().mostrarTablero());
+        Control control = Control.getInstance();
+        control.seguirTurno();
+        this.mostrar(control.mostrarTablero());
     }
     
-    private boolean esMovimiento(List<Integer[]> movimientos, Integer[] pos) {
+    public boolean esMovimiento(List<Integer[]> movimientos, Integer[] pos) {
         for (Integer[] mov : movimientos) {
             if (Arrays.equals(mov, pos)) {
                 return true;

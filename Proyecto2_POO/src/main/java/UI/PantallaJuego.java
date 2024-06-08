@@ -129,6 +129,11 @@ public class PantallaJuego extends javax.swing.JPanel {
         this.jugadorNegro.reset();
     }
     
+    public void mostrarPiezasTomadas() {
+        this.jugadorBlanco.llenar();
+        this.jugadorNegro.llenar();
+    }
+    
     public void empezarPartida() {
         //this.tablero.mostrar(tablero);
         Control control = Control.getInstance();

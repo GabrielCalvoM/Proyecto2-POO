@@ -13,15 +13,15 @@ public abstract class Pieza implements Serializable {
     protected boolean fueMovida;
     protected Color color;
     protected Tablero tablero;
-    protected int posX;
-    protected int posY;
+    protected int fila;
+    protected int columna;
     protected PiezaEnum tipo; // Campo para almacenar el tipo de la pieza
     
-    public Pieza (Color color, Tablero tablero, int posX, int posY, PiezaEnum tipo) {
+    public Pieza (Color color, Tablero tablero, int fila, int columna, PiezaEnum tipo) {
         this.color = color;
         this.tablero = tablero;
-        this.posX = posX;
-        this.posY = posY;
+        this.fila = fila;
+        this.columna = columna;
         this.fueMovida = false;
         this.fueTomada = false;
         this.tipo = tipo; // Inicializar el tipo de la pieza
@@ -31,22 +31,22 @@ public abstract class Pieza implements Serializable {
         this.color = peon.color;
         this.fueMovida = peon.fueMovida;
         this.fueTomada = peon.fueTomada;
-        this.posX = peon.posX;
-        this.posY = peon.posY;
+        this.fila = peon.fila;
+        this.columna = peon.columna;
         this.tablero = peon.tablero;
         this.tipo = peon.tipo; 
     }
     
     public abstract ArrayList<Integer[]> movimientos();
     
-    public void mover(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
+    public void mover(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
         this.fueMovida = true;
     }
     
     public Integer[] getPosicion() {
-        return new Integer[]{posX, posY};
+        return new Integer[]{fila, columna};
     }
     
     public Color getColor() {
@@ -65,12 +65,12 @@ public abstract class Pieza implements Serializable {
         this.fueTomada = tomada;
     }
 
-    public void setY(int posY) {
-        this.posY = posY;
+    public void setY(int columna) {
+        this.columna = columna;
     }
 
-    public void setX(int posX) {
-        this.posX = posX;
+    public void setX(int fila) {
+        this.fila = fila;
     }
 
     // Método para obtener el tipo de la pieza
