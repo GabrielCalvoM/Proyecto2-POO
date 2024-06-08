@@ -17,6 +17,14 @@ public class Tablero implements Serializable {
     
     
     public Tablero(String jugador1, String jugador2) {
+        if ("".equals(jugador1) || jugador1 == null) {
+            jugador1 = "Jugador Blanco";
+        }
+        
+        if ("".equals(jugador2) || jugador2 == null) {
+            jugador2 = "Jugador Negro";
+        }
+        
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
         this.factory = new PiezaFactory(this);
@@ -42,8 +50,8 @@ public class Tablero implements Serializable {
         }
     }
     
-    public Pieza getPieza(int posX, int posY) {
-        return matriz[posX][posY];
+    public Pieza getPieza(int fila, int columna) {
+        return matriz[fila][columna];
     }
 
     public void setPieza(int posX, int posY, Pieza pieza) {
@@ -166,8 +174,8 @@ public class Tablero implements Serializable {
     }
     
     public void inciarPiezas() {
-        this.piezasBlancas = this.iniciarJugador(0, 1, Color.white);
-        this.piezasNegras = this.iniciarJugador(7, 6, Color.black);
+        this.piezasBlancas = this.iniciarJugador(6, 7, Color.white);
+        this.piezasNegras = this.iniciarJugador(1, 0, Color.black);
     }
     
     private List<Pieza> iniciarJugador(int filaPeones, int filaFrontal, Color color) {

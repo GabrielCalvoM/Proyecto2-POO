@@ -1,9 +1,9 @@
 package UI;
 
-import javax.swing.Icon;
+import control.Control;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 public class MenuJuego extends javax.swing.JPanel {
 
@@ -145,12 +145,24 @@ public class MenuJuego extends javax.swing.JPanel {
     }//GEN-LAST:event_guardarSalirBtnActionPerformed
 
     public void setIcon() {
-        ImageIcon icon = ImagenRegistro.getInstance().getIcon(this.volverBtn, "\\botones\\salir.png");
+        ImageIcon icon = ImagenRegistro.getInstance().getIcon(this.volverBtn, "botones\\salir.png");
         this.volverBtn.setIcon(icon);
     }
     
     private void guardar() {
-        
+        try {
+            Control.guardarPartida();
+            String msj = "Se ha guardado la partida correctamente";
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), msj);
+        }
+        catch (IOException ex) {
+            String msj = "Error al guardar la partida";
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), msj);
+        }
+        catch (ClassNotFoundException ex) {
+            String msj = "Error de acceso de clase";
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), msj);
+        }
     }
     
     private void salir(String string) {

@@ -132,7 +132,7 @@ public class TablaJugador extends javax.swing.JPanel {
     
     public void setPiezaTomada(PiezaEnum pieza) {
         ImagenRegistro registro = ImagenRegistro.getInstance();
-        Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color);
+        Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color, false);
         JLabel label = (JLabel) this.piezasTomadas.getComponent(this.contador);
         ImageIcon icon = lista.get(pieza);
         registro.ajustar(label, icon);

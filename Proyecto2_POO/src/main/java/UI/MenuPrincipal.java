@@ -103,17 +103,25 @@ public class MenuPrincipal extends javax.swing.JPanel {
         
         
         String partida = JOptionPane.showInputDialog(MainFrame.getInstance(),
-                                                      "Indique el nombre con el que se guardará la partida");
+                                                      "Indique el nombre con el que se guardará la partida").trim();
         String jugador1 = JOptionPane.showInputDialog(MainFrame.getInstance(),
-                                                      "Indique el nombre del primer jugador");
+                                                      "Indique el nombre del primer jugador").trim();
         String jugador2 = JOptionPane.showInputDialog(MainFrame.getInstance(),
-                                                      "Indique el nombre del segundo jugador");
+                                                      "Indique el nombre del segundo jugador").trim();
         Control.getInstance().iniciarPartida(partida, jugador1, jugador2);
-        panel.empezarPartida(Control.getInstance().mostrarTablero());
+        panel.empezarPartida();
     }//GEN-LAST:event_nuevaPartidaBtnActionPerformed
 
     private void cargarPartidaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPartidaBtnActionPerformed
-        
+        try {
+            MainFrame frame = MainFrame.getInstance();
+            PantallaCarga pantalla = (PantallaCarga) frame.getPage(MainFrame.PANTALLA_CARGA);
+            pantalla.mostrarPartidas();
+            frame.showPage(MainFrame.PANTALLA_CARGA);
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), "Occurrió un error al recuperar los archivos");
+        }
     }//GEN-LAST:event_cargarPartidaBtnActionPerformed
 
 

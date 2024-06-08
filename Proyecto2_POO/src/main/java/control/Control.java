@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import enums.PiezaEnum;
+import java.util.List;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,7 +26,7 @@ import logic.piezas.Rey;
 public class Control implements Serializable {
     
     private static Control instance;
-    private static final String dir = "C:/partidasAjedrez";
+    private static final String dir = "C:/partidasAjedrez/";
     private String partidaActual;
     private boolean juegaBlanco;
     private Tablero tablero;
@@ -55,6 +56,10 @@ public class Control implements Serializable {
         this.partidaActual = partida;
     }
     
+    public boolean estaJugando(Color color) {
+        return (color == Color.white) == this.juegaBlanco;
+    }
+    
     public IdentificadorPieza[][] mostrarTablero() {
         IdentificadorPieza[][] estadoTablero = new IdentificadorPieza[8][8];
         for (int i = 0; i < 8; i++) {
@@ -74,30 +79,25 @@ public class Control implements Serializable {
         return estadoTablero;
     }
     
+    public List<Integer[]> getMovimientos(int fila, int columna) {
+        return this.tablero.getPieza(fila, columna).movimientos();
+    }
+    
     public void mover(int posX, int posY, int nuevaPosX, int nuevaPosY) {
         // Obtener la pieza en la posición actual
         Pieza pieza = this.tablero.getPieza(posX, posY);
 
-        // Verificar si la pieza puede moverse a la nueva posición
-        ArrayList<Integer[]> movimientosPosibles = pieza.movimientos();
-        for (Integer[] movimiento : movimientosPosibles) {
-            if (movimiento[0] == nuevaPosX && movimiento[1] == nuevaPosY) {
-                // Si hay una pieza en la nueva posición, marcarla como tomada
-                if (this.tablero.estaOcupada(nuevaPosX, nuevaPosY)) {
-                    Pieza piezaEnNuevaPos = this.tablero.getPieza(nuevaPosX, nuevaPosY);
-                    piezaEnNuevaPos.setTomada(true);
-                }
-
-                // Actualizar la posición de la pieza en el tablero y en la pieza misma
-                this.tablero.moverPieza(pieza, nuevaPosX, nuevaPosY);
-                pieza.mover(nuevaPosX, nuevaPosY);
-
-                return;
-            }
+        // Si hay una pieza en la nueva posición, marcarla como tomada
+        if (this.tablero.estaOcupada(nuevaPosX, nuevaPosY)) {
+            Pieza piezaEnNuevaPos = this.tablero.getPieza(nuevaPosX, nuevaPosY);
+            piezaEnNuevaPos.setTomada(true);
         }
 
-        // Si la pieza no puede moverse a la nueva posición, lanzar una excepción
-        throw new IllegalArgumentException("Movimiento no válido");
+        // Actualizar la posición de la pieza en el tablero y en la pieza misma
+        this.tablero.moverPieza(pieza, nuevaPosX, nuevaPosY);
+        pieza.mover(nuevaPosX, nuevaPosY);
+
+        return;
     }
     
     public void comer(int posX, int posY) {
@@ -186,8 +186,12 @@ public class Control implements Serializable {
     }
     
     public static void guardarPartida() throws FileNotFoundException, IOException, ClassNotFoundException {
+        File carpeta = new File(dir);
+        carpeta.mkdir();
+        
         FileOutputStream file = new FileOutputStream(dir + instance.partidaActual + ".bin");
         ObjectOutputStream stream = new ObjectOutputStream(file);
+        
         stream.writeObject(instance);
         stream.close();
         file.close();

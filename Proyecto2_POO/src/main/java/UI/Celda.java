@@ -1,12 +1,12 @@
 package UI;
 
+import control.Control;
 import enums.PiezaEnum;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -22,6 +22,7 @@ public class Celda extends JButton {
     
     public Celda() {
         super();
+        setContentAreaFilled(false);
         this.columna = 0;
         this.fila = 0;
         
@@ -34,6 +35,14 @@ public class Celda extends JButton {
         this.fila = posY;
         
         this.initBoton();
+    }
+    
+    public int getFila() {
+        return this.fila;
+    }
+    
+    public int getColumna() {
+        return this.columna;
     }
     
     public PiezaEnum getPieza() {
@@ -59,23 +68,37 @@ public class Celda extends JButton {
     public void marcar(boolean marcado) {
         this.marcado = marcado;
         
-        if (this.pieza == null) {
-            this.setEnabled(marcado);
-        }
-        
-        this.repaint();
+        this.setIcon();
     }
     public boolean isMarcado() {
         return this.marcado;
     }
     
-    
-    
+    public void setIcon() {
+        ImagenRegistro registro = ImagenRegistro.getInstance();
+        
+        if (this.pieza != null) {
+            Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color, marcado);
+            ImageIcon icon = lista.get(this.pieza);
+            registro.ajustar(this, icon);
+            this.setIcon(icon);
+        }
+        else {
+            if (this.marcado) {
+                ImageIcon icon = registro.getIcon(this, "marca\\marca.png");
+                registro.ajustar(this, icon);
+                this.setIcon(icon);
+            }
+            else {
+                this.setIcon(null);
+            }
+        }
+    }
     
     
     public void paintIcon(Graphics g) {
         ImagenRegistro registro = ImagenRegistro.getInstance();
-        Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color);
+        Map<PiezaEnum, ImageIcon> lista = registro.getListaIcon(color, false);
         
         if (this.pieza != null) {
             ImageIcon icon = lista.get(this.pieza);
@@ -90,10 +113,11 @@ public class Celda extends JButton {
     private void initBoton() {
         this.marcado = false;
         
-        this.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tablero.seleccionar((Celda) e.getSource());
-                marcar(!marcado);
+        this.addActionListener((ActionEvent e) -> {
+            if (this.pieza != null || marcado) {
+                if (this.tablero.getSeleccionado() != null || Control.getInstance().estaJugando(color)) {
+                    tablero.seleccionar(this);
+                }
             }
         });
     }
@@ -107,26 +131,11 @@ public class Celda extends JButton {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
         
-        if (marcado) {
-            Graphics2D g2d = (Graphics2D) g.create();
-            int diameter = Math.min(getWidth(), getHeight()) - 10;
-            int x = (getWidth() - diameter) / 2;
-            int y = (getHeight() - diameter) / 2;
-            Shape circle = new Ellipse2D.Double(x, y, diameter, diameter);
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-            
-            if (this.pieza == null) {
-                g2d.setColor(Color.white);
-            }
-            else {
-                g2d.setColor(Color.RED);
-            }
-            
-            g2d.fill(circle);
-            g2d.dispose();
+        if (getIcon() != null) {
+            int iconX = (getWidth() - getIcon().getIconWidth()) / 2;
+            int iconY = (getHeight() - getIcon().getIconHeight()) / 2;
+            getIcon().paintIcon(this, g, iconX, iconY);
         }
-        
-        paintIcon(g);
     }
         
 }

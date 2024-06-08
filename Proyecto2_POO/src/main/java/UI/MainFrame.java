@@ -8,6 +8,7 @@ public class MainFrame extends javax.swing.JFrame {
     public static final String MENU_PRINCIPAL = "MenuPrincipal";
     public static final String PANTALLA_JUEGO = "PantallaJuego";
     public static final String MENU_JUEGO = "MenuJuego";
+    public static final String PANTALLA_CARGA = "PantallaCarga";
     
     private static MainFrame instance;
     
@@ -61,6 +62,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.panel.add(new MenuPrincipal(), MENU_PRINCIPAL);
         this.panel.add(new PantallaJuego(), PANTALLA_JUEGO);
         this.panel.add(new MenuJuego(), MENU_JUEGO);
+        this.panel.add(new PantallaCarga(), PANTALLA_CARGA);
     }
     
     public static void main(String args[]) {
@@ -105,6 +107,7 @@ public class MainFrame extends javax.swing.JFrame {
             case MENU_PRINCIPAL -> this.panel.getComponent(0);
             case PANTALLA_JUEGO -> this.panel.getComponent(1);
             case MENU_JUEGO -> this.panel.getComponent(2);
+            case PANTALLA_CARGA -> this.panel.getComponent(3);
             default -> null;
         });
     }

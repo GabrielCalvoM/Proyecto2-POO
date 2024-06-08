@@ -129,21 +129,21 @@ public class PantallaJuego extends javax.swing.JPanel {
         this.jugadorNegro.reset();
     }
     
-    public void empezarPartida(IdentificadorPieza[][] tablero) {
+    public void empezarPartida() {
         //this.tablero.mostrar(tablero);
         Control control = Control.getInstance();
         this.jugadorBlanco.setNombre(control.getNombreJugador(Color.white));
         this.jugadorNegro.setNombre(control.getNombreJugador(Color.black));
-        this.tablero.mostrar(tablero);
+        this.tablero.mostrar(control.mostrarTablero());
     }
     
     public void setIcon() {
         this.opcionesBtn.setIcon(ImagenRegistro.getInstance().getIcon(this.opcionesBtn,
-                                                                      "\\botones\\opciones.png"));
+                                                                      "botones\\opciones.png"));
         this.abandonarBtn.setIcon(ImagenRegistro.getInstance().getIcon(this.opcionesBtn,
-                                                                       "\\botones\\abandonar.png"));
+                                                                       "botones\\abandonar.png"));
         this.tablasBtn.setIcon(ImagenRegistro.getInstance().getIcon(this.opcionesBtn,
-                                                                    "\\botones\\tablas.png"));
+                                                                    "botones\\tablas.png"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

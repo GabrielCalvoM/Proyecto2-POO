@@ -1,8 +1,11 @@
 package UI;
 
+import control.Control;
 import control.IdentificadorPieza;
 import enums.PiezaEnum;
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
 
@@ -47,14 +50,38 @@ public class TableroUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     
     public void seleccionar(Celda celda) {
-        if (this.presionado == null) {
-            this.presionado = celda;
-        }
-        else if (this.presionado == celda) {
+        if (this.presionado == celda) {
             this.presionado = null;
         }
         else {
-            // movimiento
+            if (celda.isMarcado()) {
+                int fila = celda.getFila();
+                int columna = celda.getColumna();
+                Control.getInstance().mover(this.presionado.getFila(), this.presionado.getColumna(),
+                                            fila, columna);
+                this.terminarTurno();
+            }
+            else {
+                this.presionado = celda;
+                this.marcar(this.presionado.getFila(), this.presionado.getColumna());
+            }
+        }
+    }
+    
+    public Celda getSeleccionado() {
+        return this.presionado;
+    }
+    
+    public void marcar(int fila, int columna) {
+        List<Integer[]> movimientos = Control.getInstance().getMovimientos(fila, columna);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Integer[] pos = {i, j};
+                Celda celda = this.celdas[i][j];
+                boolean posibleMovimiento = this.esMovimiento(movimientos, pos);
+                celda.marcar(posibleMovimiento);
+            }
         }
     }
     
@@ -63,21 +90,34 @@ public class TableroUI extends javax.swing.JPanel {
             for (int j = 0; j < 8; j++) {
                 IdentificadorPieza pieza = tablero[i][j];
                 Celda celda = this.celdas[i][j];
+                celda.marcar(false);
                 
                 if (pieza == null) {
                     celda.setPieza(null);
                     celda.setColor(null);
-                    celda.setEnabled(false);
                 }
                 else {
                     celda.setPieza(pieza.getTipo());
                     celda.setColor(pieza.getColor());
-                    celda.setEnabled(true);
                 }
                 
-                celda.repaint();
+                celda.setIcon();
             }
         }
+    }
+    
+    private void terminarTurno() {
+        this.mostrar(Control.getInstance().mostrarTablero());
+    }
+    
+    private boolean esMovimiento(List<Integer[]> movimientos, Integer[] pos) {
+        for (Integer[] mov : movimientos) {
+            if (Arrays.equals(mov, pos)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
