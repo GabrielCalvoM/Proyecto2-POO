@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import logic.Tablero;
+import logic.piezas.Peon;
 import logic.piezas.Pieza;
 import logic.piezas.Rey;
+import logic.piezas.Torre;
 
 public class Control implements Serializable {
     
@@ -79,30 +81,57 @@ public class Control implements Serializable {
         return estadoTablero;
     }
     
-    public List<Integer[]> getMovimientos(int fila, int columna) {
-        return this.tablero.getPieza(fila, columna).movimientos();
+    public List<Integer[]> getMovimientos(int fila, int columna){
+        Pieza pieza = this.tablero.getPieza(fila, columna);
+        
+        try {
+            if (pieza instanceof Rey) {
+                return this.tablero.getMovimientosRey(pieza.getColor());
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error captado en control.Control.getMovimientos(int fila, int columna)");
+        }
+        
+        return pieza.movimientos();
     }
     
-    public void mover(int posX, int posY, int nuevaPosX, int nuevaPosY) {
+    public void mover(int fila, int columna, int nuevaFila, int nuevaColumna) throws Exception {
         // Obtener la pieza en la posición actual
-        Pieza pieza = this.tablero.getPieza(posX, posY);
+        Pieza pieza = this.tablero.getPieza(fila, columna);
+        if (this.tablero.verificarJaque(this.tablero.switchColor(pieza.getColor()))) {
+            if (!this.tablero.evitaJaque(pieza, nuevaFila, nuevaColumna)) {
+                throw new Exception("El rey está en jaque");
+            }
+        }
 
         // Si hay una pieza en la nueva posición, marcarla como tomada
-        if (this.tablero.estaOcupada(nuevaPosX, nuevaPosY)) {
-            Pieza piezaEnNuevaPos = this.tablero.getPieza(nuevaPosX, nuevaPosY);
+        if (this.tablero.estaOcupada(nuevaFila, nuevaColumna)) {
+            Pieza piezaEnNuevaPos = this.tablero.getPieza(nuevaFila, nuevaColumna);
             piezaEnNuevaPos.setTomada(true);
         }
 
         // Actualizar la posición de la pieza en el tablero y en la pieza misma
-        this.tablero.moverPieza(pieza, nuevaPosX, nuevaPosY);
-        pieza.mover(nuevaPosX, nuevaPosY);
-
-        return;
+        boolean movida = pieza.getMovida();
+        this.tablero.moverPieza(pieza, nuevaFila, nuevaColumna);
+        pieza.mover(nuevaFila, nuevaColumna);
+        
+        // Verifica si es enroque
+        if (pieza instanceof Rey && !movida) {
+            Integer[] colTorre = this.tablero.verificarEnroque((Rey) pieza);
+            
+            if (colTorre != new Integer[]{0, 0}) {
+                Torre torre = (Torre) this.tablero.getPieza(fila, colTorre[0]);
+                
+                this.tablero.moverPieza(torre, fila, colTorre[1]);
+                torre.mover(fila, colTorre[1]);
+            }
+        }
     }
     
-    public void comer(int posX, int posY) {
+    public void comer(int fila, int columna) {
         // Obtener la pieza en la posición actual
-        Pieza pieza = this.tablero.getPieza(posX, posY);
+        Pieza pieza = this.tablero.getPieza(fila, columna);
     
         // Verificar si la pieza ha sido tomada
         if (pieza.getTomada()) {
@@ -111,6 +140,17 @@ public class Control implements Serializable {
         } else {
             // Si la pieza no ha sido tomada, lanzar una excepción
             throw new IllegalArgumentException("La pieza no ha sido tomada");
+        }
+    }
+    
+    public void promocion(PiezaEnum tipo, int fila, int columna) {
+        try {
+            System.out.println(tipo + " " + fila + "-" + columna);
+            Peon peon = (Peon) this.tablero.getPieza(fila, columna);
+            this.tablero.promocion(peon, tipo);
+        }
+        catch (Exception e) {
+            System.out.println("Error captado en control.Control.getMovimientos(int fila, int columna)");
         }
     }
     
@@ -135,24 +175,30 @@ public class Control implements Serializable {
     
         for (Color color : colores) {
             try {
-                if (this.tablero.verificarJaque(color)) {
+                if (this.tablero.verificarJaque(this.tablero.switchColor(color))) {
                     Rey rey = this.tablero.getRey(color);
-                    ArrayList<Integer[]> movimientosPosibles = rey.movimientos();
+                    List<Integer[]> movimientosPosibles = this.tablero.getMovimientosRey(color);
+                    
+                    if (movimientosPosibles.isEmpty()) {
+                        List<Pieza> piezasAliadas = this.tablero.getListaPiezas(color);
     
-                    boolean estaEnJaqueMate = true;
-                    for (Integer[] movimiento : movimientosPosibles) {
-                        Tablero copiaTablero = new Tablero(this.tablero);
-                        copiaTablero.moverPieza(rey, movimiento[0], movimiento[1]);
-    
-                        if (!copiaTablero.verificarJaque(color)) {
-                            estaEnJaqueMate = false;
-                            break;
+                        boolean estaEnJaqueMate = true;
+                        
+                        for (Pieza pieza : piezasAliadas) {
+                            if (pieza != rey && pieza.movimientos() != null) {
+                                for (Integer[] movimiento : pieza.movimientos()) {
+                                    if (this.tablero.evitaJaque(pieza, movimiento[0], movimiento[1])) {
+                                        estaEnJaqueMate = false;
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                    }
-    
-                    if (estaEnJaqueMate) {
-                        return color;
-                    }
+
+                        if (estaEnJaqueMate) {
+                            return color;
+                        }
+                    }                    
                 }
             } catch (Exception e) {
                 System.out.println("Error captado en Control.verificarJaqueMate()");
@@ -196,6 +242,18 @@ public class Control implements Serializable {
         }
     }
     
+    public Color switchColor(Color color) throws Exception {
+        if (color == Color.white) {
+            return Color.black;
+        }
+        else if (color == Color.black) {
+            return Color.white;
+        }
+        else {
+            throw new Exception("El color no pertenece a ningún jugador");
+        }
+    }
+    
     public static void guardarPartida() throws FileNotFoundException, IOException, ClassNotFoundException {
         File carpeta = new File(dir);
         carpeta.mkdir();
@@ -214,6 +272,16 @@ public class Control implements Serializable {
         instance = (Control) stream.readObject();
         stream.close();
         file.close();
+    }
+    
+    public static void borrarPartida() {
+        File partida = new File(dir + instance.partidaActual + ".bin");
+        
+        if (partida.exists()) {
+            if (partida.delete()) {
+                
+            }
+        }
     }
     
     public static Map<String, String> getPartidas() throws Exception {

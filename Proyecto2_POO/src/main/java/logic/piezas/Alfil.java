@@ -15,6 +15,11 @@ public class Alfil extends Pieza {
     public Alfil(Peon peon) {
         super(peon);
     }
+    
+    @Override
+    public PiezaEnum getTipo() {
+        return PiezaEnum.alfil;
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {
@@ -31,7 +36,10 @@ public class Alfil extends Pieza {
                 newX += dx[i];
                 newY += dy[i];
 
-                if (!tablero.esValida(newX, newY) || tablero.estaOcupada(newX, newY)) {
+                if (!tablero.esValida(newX, newY)) {
+                    break;
+                }
+                if (tablero.estaOcupada(newX, newY)) {
                     if (tablero.estaOcupadaPorColorContrario(newX, newY, this.color)) {
                         movimientos.add(new Integer[]{newX, newY});
                     }

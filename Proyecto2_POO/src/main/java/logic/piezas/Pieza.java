@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import enums.PiezaEnum;
 import logic.Tablero;
  
-public abstract class Pieza implements Serializable {
+public abstract class Pieza implements Serializable, Cloneable {
     
     protected boolean fueTomada;
     protected boolean fueMovida;
@@ -15,7 +15,6 @@ public abstract class Pieza implements Serializable {
     protected Tablero tablero;
     protected int fila;
     protected int columna;
-    protected PiezaEnum tipo; // Campo para almacenar el tipo de la pieza
     
     public Pieza (Color color, Tablero tablero, int fila, int columna, PiezaEnum tipo) {
         this.color = color;
@@ -24,7 +23,6 @@ public abstract class Pieza implements Serializable {
         this.columna = columna;
         this.fueMovida = false;
         this.fueTomada = false;
-        this.tipo = tipo; // Inicializar el tipo de la pieza
     }
     
     public Pieza (Peon peon) {
@@ -34,7 +32,6 @@ public abstract class Pieza implements Serializable {
         this.fila = peon.fila;
         this.columna = peon.columna;
         this.tablero = peon.tablero;
-        this.tipo = peon.tipo; 
     }
     
     public abstract ArrayList<Integer[]> movimientos();
@@ -74,9 +71,7 @@ public abstract class Pieza implements Serializable {
     }
 
     // Método para obtener el tipo de la pieza
-    public PiezaEnum getTipo() {
-        return this.tipo;
-    }
+    public abstract PiezaEnum getTipo();
 
     @Override
     public Pieza clone() {

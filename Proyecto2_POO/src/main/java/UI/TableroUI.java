@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import javax.swing.ImageIcon;
 
 public class TableroUI extends javax.swing.JPanel {
     
@@ -57,11 +55,30 @@ public class TableroUI extends javax.swing.JPanel {
         }
         else {
             if (celda.isMarcado()) {
-                int fila = celda.getFila();
-                int columna = celda.getColumna();
-                Control.getInstance().mover(this.presionado.getFila(), this.presionado.getColumna(),
-                                            fila, columna);
-                this.terminarTurno();
+                try {
+                    int fila = celda.getFila();
+                    int columna = celda.getColumna();
+                    Control control = Control.getInstance();
+                    control.mover(this.presionado.getFila(), this.presionado.getColumna(),
+                                                fila, columna);
+                    
+                    if (this.presionado.getColor() == Color.white && fila == 0) {
+                        PromocionDialog dialog = new PromocionDialog(MainFrame.getInstance(), true);
+                        dialog.initIcons(Color.white);
+                        dialog.setVisible(true);
+                        PiezaEnum tipo = dialog.getTipo();
+                        control.promocion(tipo, fila, columna);
+                    }
+                    else if (this.presionado.getColor() == Color.black && fila == 7) {
+                        control.promocion(PromocionDialog.select(Color.black), fila, columna);
+                    }
+                    
+                    this.terminarTurno();
+                }
+                catch (Exception e) {
+                    PantallaJuego pantalla = (PantallaJuego) MainFrame.getInstance().getPage(MainFrame.PANTALLA_JUEGO);
+                    pantalla.mostrarMensajeError(e.getMessage());
+                }
             }
             else {
                 this.presionado = celda;
@@ -119,6 +136,11 @@ public class TableroUI extends javax.swing.JPanel {
         Control control = Control.getInstance();
         control.seguirTurno();
         this.mostrar(control.mostrarTablero());
+        Color color = control.verificarJaqueMate();
+        
+        if (color != null) {
+            ((PantallaJuego) MainFrame.getInstance().getPage(MainFrame.PANTALLA_JUEGO)).terminarPartida(color);
+        }
     }
     
     public boolean esMovimiento(List<Integer[]> movimientos, Integer[] pos) {

@@ -15,6 +15,11 @@ public class Caballo extends Pieza {
     public Caballo(Peon peon) {
         super(peon);
     }
+    
+    @Override
+    public PiezaEnum getTipo() {
+        return PiezaEnum.caballo;
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {

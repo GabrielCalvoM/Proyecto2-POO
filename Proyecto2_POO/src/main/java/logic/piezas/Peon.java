@@ -11,6 +11,11 @@ public class Peon extends Pieza {
     public Peon(Color color, Tablero tablero, int fila, int columna) {
         super(color, tablero, fila, columna, PiezaEnum.peon);
     }
+    
+    @Override
+    public PiezaEnum getTipo() {
+        return PiezaEnum.peon;
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {
@@ -21,11 +26,11 @@ public class Peon extends Pieza {
         // Movimiento hacia adelante
         if (tablero.esValida(fila + direccion, columna) && !tablero.estaOcupada(fila + direccion, columna)) {
             movimientos.add(new Integer[]{fila + direccion, columna});
-        }
     
-        // Movimiento de dos casillas hacia adelante
-        if (!fueMovida && tablero.esValida(fila + 2*direccion, columna) && !tablero.estaOcupada(fila + 2*direccion, columna)) {
-            movimientos.add(new Integer[]{fila + 2*direccion, columna});
+            // Movimiento de dos casillas hacia adelante
+            if (!fueMovida && tablero.esValida(fila + 2*direccion, columna) && !tablero.estaOcupada(fila + 2*direccion, columna)) {
+                movimientos.add(new Integer[]{fila + 2*direccion, columna});
+            }
         }
     
         // Movimientos diagonales para tomar piezas

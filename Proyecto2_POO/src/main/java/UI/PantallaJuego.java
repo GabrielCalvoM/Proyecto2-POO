@@ -1,12 +1,15 @@
 package UI;
 
 import control.Control;
-import control.IdentificadorPieza;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class PantallaJuego extends javax.swing.JPanel {
-
+    
+    private Timer timer;
+    
     public PantallaJuego() {
         initComponents();
         this.jugadorBlanco.setColor(Color.white);
@@ -23,6 +26,7 @@ public class PantallaJuego extends javax.swing.JPanel {
         opcionesBtn = new javax.swing.JButton();
         abandonarBtn = new javax.swing.JButton();
         tablasBtn = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -46,50 +50,61 @@ public class PantallaJuego extends javax.swing.JPanel {
             }
         });
 
+        errorLabel.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(117, 16, 16));
+        errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jugadorNegro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(11, Short.MAX_VALUE))
+                        .addGap(15, 15, 15)
+                        .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                         .addComponent(tablasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(abandonarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(opcionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))))
+                        .addGap(39, 39, 39))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jugadorNegro, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(95, 95, 95)
+                        .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(jugadorBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(opcionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tablasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(opcionesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(abandonarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(36, 36, 36)
                                 .addComponent(jugadorNegro, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -134,12 +149,45 @@ public class PantallaJuego extends javax.swing.JPanel {
         this.jugadorNegro.llenar();
     }
     
+    public void mostrarMensajeError(String mensaje) {
+        this.errorLabel.setText(mensaje);
+        
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+        
+        timer = new Timer(3000, (ActionEvent e) -> {
+            this.errorLabel.setText("");
+            timer.stop();
+        });
+        timer.setRepeats(false);
+        timer.start();
+        System.out.println(mensaje);
+    }
+    
     public void empezarPartida() {
         //this.tablero.mostrar(tablero);
         Control control = Control.getInstance();
         this.jugadorBlanco.setNombre(control.getNombreJugador(Color.white));
         this.jugadorNegro.setNombre(control.getNombreJugador(Color.black));
         this.tablero.mostrar(control.mostrarTablero());
+    }
+    
+    public void terminarPartida(Color color) {
+        if (color != null) {
+            Control control = Control.getInstance();
+            String ganador = control.getNombreJugador(color);
+            String perdedor = "segundo jugador";
+            try {
+                perdedor = control.getNombreJugador(control.switchColor(color));
+            } catch (Exception ex) {
+                
+            }
+            String mensaje = ganador + " ha logrado realizar un jaque mate a " + perdedor;
+            
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), mensaje, "Fin de la partida",
+                                          JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     public void setIcon() {
@@ -153,6 +201,7 @@ public class PantallaJuego extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton abandonarBtn;
+    private javax.swing.JLabel errorLabel;
     private UI.TablaJugador jugadorBlanco;
     private UI.TablaJugador jugadorNegro;
     private javax.swing.JButton opcionesBtn;

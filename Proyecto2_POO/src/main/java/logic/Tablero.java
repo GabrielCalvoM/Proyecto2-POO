@@ -58,6 +58,45 @@ public class Tablero implements Serializable {
         matriz[fila][columna] = pieza;
     }
     
+    public List<Integer[]> getMovimientosRey(Color color) throws Exception {
+        try {
+            List<Integer[]> movimientos = new ArrayList();
+            Rey rey = this.getRey(color);
+            
+            for (Integer[] movimiento : rey.movimientos()) {
+                if (this.evitaJaque(rey, movimiento[0], movimiento[1])) {
+                    movimientos.add(movimiento);
+                }
+            }
+            
+            int fila = rey.getPosicion()[0];
+        
+            try {
+                Torre torre = (Torre) this.getPieza(fila, 0);
+                this.enroque(torre, rey);
+                movimientos.add(new Integer[]{fila, 2});
+            }
+            catch (Exception e) {
+                
+            }
+
+            try {
+                Torre torre = (Torre) this.getPieza(fila, 7);
+                this.enroque(torre, rey);
+                movimientos.add(new Integer[]{fila, 6});
+            }
+            catch (Exception e) {
+                
+            }
+            
+            return movimientos;
+        }
+        catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.getMovimientosRey(Color color)");
+            throw e;
+        }
+    }
+    
     public void enroque(Torre torre, Rey rey) throws Exception {
         Color color = torre.getColor();
         Color rival = this.switchColor(color);
@@ -71,6 +110,34 @@ public class Tablero implements Serializable {
         else if (this.verificarJaque(rival)) {
             throw new Exception("El rey está en jaque");
         }
+        
+        int fila = rey.getPosicion()[0];
+        int colRey = rey.getPosicion()[1];
+        int colTorre = torre.getPosicion()[1];
+        
+        for (int i = Math.min(colRey, colTorre) + 1; i < Math.max(colRey, colTorre); i++) {
+            if (this.matriz[fila][i] != null) {
+                throw new Exception("No hay espacio suficiente para el movimiento");
+            }
+        }
+    }
+    
+    public Integer[] verificarEnroque(Rey rey) {
+        // Verifica a qué dirección se hizo el enroque
+        
+        int columna = rey.getPosicion()[1];
+        Integer[] colTorre = {0, 0};
+        
+        switch (columna) {
+            case 2 -> {
+                colTorre = new Integer[]{0, 3};
+            }
+            case 6 -> {
+                colTorre = new Integer[]{7, 5};
+            }
+        }
+        
+        return colTorre;
     }
     
     public void promocion(Peon peon, PiezaEnum nuevaPieza) throws Exception {
@@ -82,6 +149,7 @@ public class Tablero implements Serializable {
             lista.add(pieza);
             lista.remove(peon);
             this.matriz[pos[0]][pos[1]] = pieza;
+            System.out.println(this.matriz[pos[0]][pos[1]] instanceof Peon);
         } catch (Exception e) {
             System.out.println("Error captado en logic.Tablero.promocion(Peon peon, PiezaEnum nuevaPieza)");
             throw e;
@@ -89,20 +157,66 @@ public class Tablero implements Serializable {
     }
     
     public boolean verificarJaque(Color color) throws Exception {
+        // Verifica jaque para si el jugador está haciendo jaque
+        
         try {
-            Set<Integer[]> movimientos = new HashSet();
-
-            for (Pieza pieza : this.getListaPiezas(color)) {
-                movimientos.addAll(pieza.movimientos());
-            }
+            List<Integer[]> movimientos = this.getAllMovimientos(color);
 
             Color rival = this.switchColor(color);
             Rey reyRival = this.getRey(rival);
             Integer[] posRey = reyRival.getPosicion();
-
-            return movimientos.contains(posRey);
+            
+            return this.esMovimiento(movimientos, posRey);
         } catch (Exception e) {
             System.out.println("Error captado en logic.Tablero.verificarJaque(Color color)");
+            throw e;
+        }
+    }
+    
+    public boolean verificarJaque(Color color, Pieza piezaEliminada) throws Exception {
+        // Verifica jaque para si el jugador está haciendo jaque
+        
+        try {
+            List<Integer[]> movimientos = this.getAllMovimientos(color, piezaEliminada);
+
+            Color rival = this.switchColor(color);
+            Rey reyRival = this.getRey(rival);
+            Integer[] posRey = reyRival.getPosicion();
+            
+            return this.esMovimiento(movimientos, posRey);
+        } catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.verificarJaque(Color color, Pieza piezaEliminada)");
+            throw e;
+        }
+    }
+    
+    public boolean evitaJaque(Pieza pieza, int fila, int columna) throws Exception {
+        try {
+            Color color = pieza.getColor();
+            Pieza piezaAnterior = matriz[fila][columna];
+            if (piezaAnterior != null) {
+                if (piezaAnterior.getColor() == color) {
+                    return false;
+                }
+            }
+            
+            Pieza nPieza = pieza.clone();
+            
+            Integer[] posAnterior = pieza.getPosicion();
+            this.matriz[fila][columna] = nPieza;
+            nPieza.mover(fila, columna);
+            this.matriz[posAnterior[0]][posAnterior[1]] = null;
+            
+            boolean evita = !this.verificarJaque(this.switchColor(color), piezaAnterior);
+            
+            this.matriz[posAnterior[0]][posAnterior[1]] = pieza;
+            nPieza.mover(posAnterior[0], posAnterior[1]);
+            this.matriz[fila][columna] = piezaAnterior;
+
+            return evita;
+        }
+        catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.evitaJaque(Pieza pieza, int fila, int columna)");
             throw e;
         }
     }
@@ -150,7 +264,7 @@ public class Tablero implements Serializable {
     }
     
     
-    private List<Pieza> getListaPiezas(Color color) throws Exception {
+    public List<Pieza> getListaPiezas(Color color) throws Exception {
         if (color == Color.white) {
             return this.piezasBlancas;
         }
@@ -158,7 +272,7 @@ public class Tablero implements Serializable {
             return this.piezasNegras;
         }
         else {
-            throw new Exception("No se logró encontrar lasta perteneciente al jugador");
+            throw new Exception("No se logró encontrar la lista perteneciente al jugador");
         }
     }
     
@@ -222,7 +336,6 @@ public class Tablero implements Serializable {
     public void moverPieza(Pieza pieza, int fila, int columna) {
         matriz[pieza.getPosicion()[0]][pieza.getPosicion()[1]] = null;
         matriz[fila][columna] = pieza;
-        
     }
 
     public void eliminarPieza(Pieza pieza) {
@@ -235,5 +348,51 @@ public class Tablero implements Serializable {
 
     public String getJugador2() {
         return jugador2;
+    }
+    
+    
+    
+    private boolean esMovimiento(Collection<Integer[]> movimientos, Integer[] pos) {
+        for (Integer[] mov : movimientos) {
+            if (Arrays.equals(mov, pos)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private List<Integer[]> getAllMovimientos(Color color) throws Exception {
+        try {
+            Set<Integer[]> movimientos = new HashSet();
+
+            for (Pieza pieza : this.getListaPiezas(color)) {
+                movimientos.addAll(pieza.movimientos());
+            }
+            
+            return new ArrayList(movimientos);
+        }
+        catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.getAllMovimientos(Color color)");
+            throw e;
+        }
+    }
+    
+    private List<Integer[]> getAllMovimientos(Color color, Pieza piezaEliminada) throws Exception {
+        try {
+            Set<Integer[]> movimientos = new HashSet();
+
+            for (Pieza pieza : this.getListaPiezas(color)) {
+                if (pieza != piezaEliminada) {
+                    movimientos.addAll(pieza.movimientos());
+                }
+            }
+            
+            return new ArrayList(movimientos);
+        }
+        catch (Exception e) {
+            System.out.println("Error captado en logic.Tablero.getAllMovimientos(Color color, Pieza piezaEliminada)");
+            throw e;
+        }
     }
 }

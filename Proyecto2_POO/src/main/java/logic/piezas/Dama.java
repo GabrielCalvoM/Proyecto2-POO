@@ -15,6 +15,11 @@ public class Dama extends Pieza {
     public Dama(Peon peon) {
         super(peon);
     }
+    
+    @Override
+    public PiezaEnum getTipo() {
+        return PiezaEnum.dama;
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {
@@ -31,13 +36,16 @@ public class Dama extends Pieza {
                 newX += dx[i];
                 newY += dy[i];
 
-                if (!tablero.esValida(newX, newY) || tablero.estaOcupada(newX, newY)) {
+                if (!tablero.esValida(newX, newY)) {
+                    break;
+                }
+
+                if (tablero.estaOcupada(newX, newY)) {
                     if (tablero.estaOcupadaPorColorContrario(newX, newY, this.color)) {
                         movimientos.add(new Integer[]{newX, newY});
                     }
                     break;
                 }
-
                 movimientos.add(new Integer[]{newX, newY});
             }
         }

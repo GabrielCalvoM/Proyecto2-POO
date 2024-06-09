@@ -59,9 +59,12 @@ public class ImagenRegistro {
     }
     
     public void ajustar(JComponent component, ImageIcon icon) {
-        Image imagen = icon.getImage().getScaledInstance(component.getWidth(), component.getHeight(),
-                                                         Image.SCALE_SMOOTH);
-        icon.setImage(imagen);
+        if (component.getWidth() != icon.getIconWidth() ||
+            component.getHeight() != icon.getIconHeight()) {
+            Image imagen = icon.getImage().getScaledInstance(component.getWidth(), component.getHeight(),
+                                                             Image.SCALE_AREA_AVERAGING);
+            icon.setImage(imagen);
+        }
     }
     
     public String getDir() {

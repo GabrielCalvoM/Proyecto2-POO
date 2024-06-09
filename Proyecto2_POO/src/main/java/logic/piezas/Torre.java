@@ -15,6 +15,11 @@ public class Torre extends Pieza {
     public Torre(Peon peon) {
         super(peon);
     }
+    
+    @Override
+    public PiezaEnum getTipo() {
+        return PiezaEnum.torre;
+    }
 
     @Override
     public ArrayList<Integer[]> movimientos() {
@@ -26,12 +31,16 @@ public class Torre extends Pieza {
         for (int i = 0; i < 4; i++) {
             int newX = fila;
             int newY = columna;
-
+            
             while (true) {
                 newX += dx[i];
                 newY += dy[i];
+                
+                if (!tablero.esValida(newX, newY)) {
+                    break;
+                }
 
-                if (!tablero.esValida(newX, newY) || tablero.estaOcupada(newX, newY)) {
+                if (tablero.estaOcupada(newX, newY)) {
                     if (tablero.estaOcupadaPorColorContrario(newX, newY, this.color)) {
                         movimientos.add(new Integer[]{newX, newY});
                     }
